@@ -1,0 +1,7 @@
+{
+  "name": "todo-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Maycon Silva",
+  "license": "MIT"
+}
