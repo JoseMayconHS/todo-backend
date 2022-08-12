@@ -9,4 +9,5 @@ export class MockTaskRepository implements TaskRepositoryContract {
 		return Task.id
 	}
 	async update(id: string, data: Object): Promise<void> {}
+	async delete(id: string): Promise<void> {}
 }

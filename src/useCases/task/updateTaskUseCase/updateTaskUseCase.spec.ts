@@ -1,10 +1,10 @@
-import { TaskRepository } from './../../../repositories/repositories'
-import { UpdateTaskUseCase } from './updateTaskUseCase'
+import { TaskRepository } from '../../../repositories/repositories'
+import { UpdateTaskUseCase } from './UpdateTaskUseCase'
 
 describe('Update Task', () => {
-	const mockTaskRepository = new TaskRepository()
+	const taskRepository = new TaskRepository()
 
-	const updateTaskUseCase = new UpdateTaskUseCase(mockTaskRepository)
+	const updateTaskUseCase = new UpdateTaskUseCase(taskRepository)
 
 	it('should be able update task', async () => {
 		await expect(

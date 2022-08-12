@@ -2,9 +2,9 @@ import { TaskRepository } from '../../../repositories/repositories'
 import { CreateTaskUseCase } from './CreateTaskUseCase'
 
 describe('Create Task', () => {
-	const mockTaskRepository = new TaskRepository()
+	const taskRepository = new TaskRepository()
 
-	const createTaskUseCase = new CreateTaskUseCase(mockTaskRepository)
+	const createTaskUseCase = new CreateTaskUseCase(taskRepository)
 
 	it('should be able create task', async () => {
 		const data = {
