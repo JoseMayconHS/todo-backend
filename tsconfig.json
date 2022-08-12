@@ -5,7 +5,8 @@
 		"baseUrl": "./",
 		"paths": {
 			"@repositories/*": ["src/repositories/*"],
-			"@models/*": ["src/models/*"]
+			"@models/*": ["src/models/*"],
+			"@useCases/*": ["src/useCases/*"]
 		},
 		"resolveJsonModule": true,
 		"outDir": "./dist",
@@ -15,5 +16,8 @@
 		"skipLibCheck": true
 	},
 	"exclude": ["node_modules", "dist", "src/**/*.spec.ts"],
-	"include": ["src/**/*.ts"]
+	"include": ["src/**/*.ts"],
+	"jest": {
+		"testPathIgnorePatterns": ["<rootDir>/build/", "<rootDir>/node_modules/"]
+	}
 }

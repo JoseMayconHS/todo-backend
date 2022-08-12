@@ -4,4 +4,5 @@ export interface CreateTaskDTO extends Omit<TaskModel, 'doneAt' | 'id'> {}
 
 export interface TaskRepositoryContract {
 	create(data: CreateTaskDTO): Promise<string>
+	update(id: string, data: Object): Promise<void>
 }

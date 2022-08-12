@@ -8,6 +8,6 @@ module.exports = {
 	moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
 		prefix: '<rootDir>/',
 	}),
-	collectCoverage: true,
-	// coverageDirectory: '<rootDir>/coverage',
+	collectCoverage: false,
+	cache: true,
 }

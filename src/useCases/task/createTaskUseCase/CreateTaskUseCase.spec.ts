@@ -1,4 +1,4 @@
-import { TaskRepository } from './../../repositories/repositories'
+import { TaskRepository } from '../../../repositories/repositories'
 import { CreateTaskUseCase } from './CreateTaskUseCase'
 
 describe('Create Task', () => {

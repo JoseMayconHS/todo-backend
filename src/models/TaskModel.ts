@@ -1,4 +1,4 @@
-import { uuid } from 'uuidv4'
+import { v4 } from 'uuid'
 
 export type Checklist = {
 	description: string
@@ -21,7 +21,7 @@ export class TaskModel {
 		this.step_id = props.step_id
 
 		this.checklist = props.checklist ?? []
-		this._id = _id ?? uuid()
+		this._id = _id ?? v4()
 	}
 
 	get id() {
