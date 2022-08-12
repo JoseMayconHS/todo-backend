@@ -10,4 +10,7 @@ export class MockTaskRepository implements TaskRepositoryContract {
 	}
 	async update(id: string, data: Object): Promise<void> {}
 	async delete(id: string): Promise<void> {}
+	async findByWorkspace(id: string): Promise<TaskModel[]> {
+		return []
+	}
 }

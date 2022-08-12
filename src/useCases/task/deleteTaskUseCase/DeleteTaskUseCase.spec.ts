@@ -7,7 +7,7 @@ describe('Delete Task', () => {
 	const deleteTaskUseCase = new DeleteTaskUseCase(taskRepository)
 
 	it('should not be able delete task without id', async () => {
-		await expect(deleteTaskUseCase.execute('')).resolves.not.toThrow()
+		await expect(deleteTaskUseCase.execute('')).rejects.toThrow()
 	})
 
 	it('should be able delete task', async () => {
