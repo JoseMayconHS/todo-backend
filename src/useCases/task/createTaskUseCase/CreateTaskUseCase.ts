@@ -11,10 +11,6 @@ export class CreateTaskUseCase {
 			throw new Error('Título inválido')
 		}
 
-		if (!data.workspace_id) {
-			throw new Error('Workspace inválido')
-		}
-
 		if (!data.step_id) {
 			throw new Error('Nenhum estágio associado a tarefa')
 		}

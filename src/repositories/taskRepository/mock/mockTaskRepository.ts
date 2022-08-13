@@ -6,7 +6,7 @@ export class MockTaskRepository implements TaskRepositoryContract {
 	async create(data: CreateTaskDTO): Promise<string> {
 		const Task = new TaskModel(data)
 
-		return Task.id
+		return Task._id || ''
 	}
 	async update(id: string, data: Object): Promise<void> {}
 	async delete(id: string): Promise<void> {}
