@@ -15,7 +15,7 @@ export type LoginUserResponse = {
 export class LoginUserUseCase {
 	constructor(private UserRepository: UserRepositoryContract) {}
 
-	async execute(data = {} as LoginUser): Promise<LoginUserResponse | Error> {
+	async execute(data = {} as LoginUser): Promise<LoginUserResponse> {
 		if (!Object.values(data).length) {
 			throw new Error('Nenhuma informação para login')
 		}

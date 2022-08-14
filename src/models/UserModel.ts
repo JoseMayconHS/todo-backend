@@ -1,3 +1,5 @@
+import bcryptjs from 'bcryptjs'
+
 import { Model } from '.'
 import { CreateUserDTO } from './../repositories/userRepository/UserRepository'
 import { CreateWorkspaceDTO } from './../repositories/userRepository/WorkspaceRepository'
@@ -50,9 +52,16 @@ export class UserModel extends Model {
 		return `Token do usuário ${this._id}`
 	}
 
-	async encrypt(password: string) {
-		// (STAND BY) encriptar senha
-		this.password = 'Senha encriptada'
+	encrypt(password: string) {
+		const salt = bcryptjs.genSaltSync()
+
+		const hash = bcryptjs.hashSync(password, salt)
+
+		this.password = hash
+	}
+
+	async comparePassword(password: string) {
+		return await bcryptjs.compare(password, this.password)
 	}
 
 	addWorkspace(workspace: WorkspaceModel) {

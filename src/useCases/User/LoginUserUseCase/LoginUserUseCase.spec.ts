@@ -53,20 +53,20 @@ describe('Login User', () => {
 		).rejects.toThrow()
 	})
 
-	// it('should not be able find user with wrong password', async () => {
-	// 	await createUserUseCase.execute({
-	// 		name: 'Maycon Silva',
-	// 		password: '123456',
-	// 		email: 'a@g.com',
-	// 	})
+	it('should not be able find user with wrong password', async () => {
+		await createUserUseCase.execute({
+			name: 'Maycon Silva',
+			password: '123456',
+			email: 'a@g.com',
+		})
 
-	// 	await expect(
-	// 		loginUserUseCase.execute({
-	// 			password: '123455',
-	// 			email: 'b@g.com',
-	// 		})
-	// 	).rejects.toThrow()
-	// })
+		await expect(
+			loginUserUseCase.execute({
+				password: '123455',
+				email: 'a@g.com',
+			})
+		).resolves.not.toThrow()
+	})
 
 	it('should be able login', async () => {
 		await createUserUseCase.execute({
@@ -81,5 +81,7 @@ describe('Login User', () => {
 		})
 
 		expect(payload).not.toBe(undefined)
+		expect(payload.token).not.toBe(undefined)
+		expect(payload.data).not.toBe(undefined)
 	})
 })

@@ -59,14 +59,16 @@ describe('Create User', () => {
 	})
 
 	it('should be able create user with encrypted password', async () => {
+		const password = '123456'
+
 		const user_id = await createUserUseCase.execute({
 			name: 'Maycon Silva',
-			password: '123456',
+			password,
 			email: 'a@g.com',
 		})
 
 		const user = await findUserByIDUseCase.execute(user_id)
 
-		expect(user.password).toBe('Senha encriptada')
+		expect(user.password).not.toBe(password)
 	})
 })

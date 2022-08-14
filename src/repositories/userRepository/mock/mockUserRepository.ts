@@ -9,7 +9,7 @@ import { CreateUserDTO, UserRepositoryContract } from '../UserRepository'
 export class MockUserRepository implements UserRepositoryContract {
 	private users: Required<UserModel>[] = []
 
-	async userLogin(data: LoginUser): Promise<LoginUserResponse | Error> {
+	async userLogin(data: LoginUser): Promise<LoginUserResponse> {
 		const { email, password } = data
 
 		const user = await this.userGetByEmail(email)
@@ -18,7 +18,9 @@ export class MockUserRepository implements UserRepositoryContract {
 			throw new Error('Não existe usuário com este e-mail')
 		}
 
-		// (STAND BY) comparar senhas
+		if (!(await user.comparePassword(password))) {
+			throw new Error('Senha incorreta')
+		}
 
 		return {
 			data: user.toObj(),
