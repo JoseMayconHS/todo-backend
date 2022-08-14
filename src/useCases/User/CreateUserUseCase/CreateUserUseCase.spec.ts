@@ -8,18 +8,6 @@ describe('Create User', () => {
 	const createUserUseCase = new CreateUserUseCase(userRepository)
 	const findUserByIDUseCase = new FindUserByIDUseCase(userRepository)
 
-	it('should be able create user with encrypted password', async () => {
-		const user_id = await createUserUseCase.execute({
-			name: 'Maycon Silva',
-			password: '123456',
-			email: 'a@g.com',
-		})
-
-		const user = await findUserByIDUseCase.execute(user_id)
-
-		expect(user.password).toBe('Senha encriptada')
-	})
-
 	it('should not be able create user without name', async () => {
 		await expect(
 			createUserUseCase.execute({
@@ -68,5 +56,17 @@ describe('Create User', () => {
 				email: 'a@g.com',
 			})
 		).resolves.not.toThrow()
+	})
+
+	it('should be able create user with encrypted password', async () => {
+		const user_id = await createUserUseCase.execute({
+			name: 'Maycon Silva',
+			password: '123456',
+			email: 'a@g.com',
+		})
+
+		const user = await findUserByIDUseCase.execute(user_id)
+
+		expect(user.password).toBe('Senha encriptada')
 	})
 })

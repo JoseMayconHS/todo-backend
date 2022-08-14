@@ -2,6 +2,7 @@ import {
 	CreateUserDTO,
 	UserRepositoryContract,
 } from '@repositories/userRepository/UserRepository'
+import { validatePassword } from '@utils/validatePassword'
 
 export class CreateUserUseCase {
 	constructor(private UserRepository: UserRepositoryContract) {}
@@ -15,11 +16,7 @@ export class CreateUserUseCase {
 			throw new Error('E-mail inválido')
 		}
 
-		if (!data.password.length) {
-			throw new Error('Senha inválida')
-		} else if (data.password.length < 6) {
-			throw new Error('Senha muito curta')
-		}
+		validatePassword(data.password)
 
 		const _id = await this.UserRepository.userCreate(data)
 

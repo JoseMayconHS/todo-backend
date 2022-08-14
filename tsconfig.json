@@ -6,7 +6,8 @@
 		"paths": {
 			"@repositories/*": ["src/repositories/*"],
 			"@models/*": ["src/models/*"],
-			"@useCases/*": ["src/useCases/*"]
+			"@useCases/*": ["src/useCases/*"],
+			"@utils/*": ["src/utils/*"]
 		},
 		"resolveJsonModule": true,
 		"outDir": "./dist",

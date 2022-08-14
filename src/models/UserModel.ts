@@ -8,6 +8,19 @@ export type Checklist = {
 	done: boolean
 }
 
+export interface UserPayload
+	extends Omit<
+		UserModel,
+		| 'token'
+		| 'encrypt'
+		| 'setPassword'
+		| 'addWorkspace'
+		| 'updateWorkspace'
+		| 'payload'
+	> {}
+
+export interface UserObj extends Omit<UserPayload, 'password'> {}
+
 export class UserModel extends Model {
 	public name: string
 	public email: string
@@ -33,12 +46,12 @@ export class UserModel extends Model {
 	}
 
 	async token() {
-		// (STAND BY)
+		// (STAND BY) gerar token
 		return `Token do usuário ${this._id}`
 	}
 
 	async encrypt(password: string) {
-		// (STAND BY)
+		// (STAND BY) encriptar senha
 		this.password = 'Senha encriptada'
 	}
 
@@ -62,5 +75,28 @@ export class UserModel extends Model {
 
 			this.workspaces.splice(index, 1, workspace_updated)
 		}
+	}
+
+	toObj(): UserObj {
+		const user_obj = this.payload()
+
+		delete user_obj.password
+
+		return user_obj
+	}
+
+	payload(): UserPayload {
+		const payload = {
+			...this,
+		}
+
+		delete payload.token
+		delete payload.setPassword
+		delete payload.updateWorkspace
+		delete payload.encrypt
+		delete payload.addWorkspace
+		delete payload.payload
+
+		return payload
 	}
 }
