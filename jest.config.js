@@ -15,4 +15,5 @@ module.exports = {
 			isolatedModules: true,
 		},
 	},
+	setupFiles: ['<rootDir>/jest.env.js'],
 }

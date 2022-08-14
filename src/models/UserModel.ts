@@ -1,4 +1,5 @@
 import bcryptjs from 'bcryptjs'
+import jsonwebtoken from 'jsonwebtoken'
 
 import { Model } from '.'
 import { CreateUserDTO } from './../repositories/userRepository/UserRepository'
@@ -47,9 +48,12 @@ export class UserModel extends Model {
 		}
 	}
 
-	async token() {
-		// (STAND BY) gerar token
-		return `Token do usuário ${this._id}`
+	token() {
+		const token = jsonwebtoken.sign(this.payload(), process.env.JWT_SECRET, {
+			expiresIn: '24h',
+		})
+
+		return `Bearer ${token}`
 	}
 
 	encrypt(password: string) {

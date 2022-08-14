@@ -47,6 +47,6 @@ describe('Find Workspaces by User', () => {
 			user_id
 		)
 
-		expect(workspace).not.toBe(undefined)
+		expect(workspace).toBeDefined()
 	})
 })

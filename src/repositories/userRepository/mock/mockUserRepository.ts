@@ -24,7 +24,7 @@ export class MockUserRepository implements UserRepositoryContract {
 
 		return {
 			data: user.toObj(),
-			token: await user.token(),
+			token: user.token(),
 		}
 	}
 

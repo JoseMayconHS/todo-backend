@@ -65,7 +65,7 @@ describe('Login User', () => {
 				password: '123455',
 				email: 'a@g.com',
 			})
-		).resolves.not.toThrow()
+		).rejects.toThrow()
 	})
 
 	it('should be able login', async () => {
@@ -81,7 +81,7 @@ describe('Login User', () => {
 		})
 
 		expect(payload).not.toBe(undefined)
-		expect(payload.token).not.toBe(undefined)
-		expect(payload.data).not.toBe(undefined)
+		expect(payload.token).toBeDefined()
+		expect(payload.data).toBeDefined()
 	})
 })
