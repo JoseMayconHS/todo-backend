@@ -1,13 +1,21 @@
-import { TaskRepositoryContract } from '@repositories/taskRepository/TaskRepository'
+import { TaskRepositoryContract } from '@repositories/userRepository/TaskRepository'
 
 export class DeleteTaskUseCase {
 	constructor(private TaskRepository: TaskRepositoryContract) {}
 
-	async execute(id: string) {
-		if (!id) {
-			throw new Error('ID inválido')
+	async execute(task_id = '', workspace_id = '', user_id = '') {
+		if (!task_id) {
+			throw new Error('ID da tarefa inválida')
 		}
 
-		await this.TaskRepository.delete(id)
+		if (!workspace_id) {
+			throw new Error('ID do workspace inválido')
+		}
+
+		if (!user_id) {
+			throw new Error('ID do usuário inválido')
+		}
+
+		await this.TaskRepository.taskDelete(task_id, workspace_id, user_id)
 	}
 }

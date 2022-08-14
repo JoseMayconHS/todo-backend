@@ -9,5 +9,10 @@ module.exports = {
 		prefix: '<rootDir>/',
 	}),
 	collectCoverage: true,
-	cache: true,
+	cache: false,
+	globals: {
+		'ts-jest': {
+			isolatedModules: true,
+		},
+	},
 }
