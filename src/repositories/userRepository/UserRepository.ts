@@ -14,10 +14,12 @@ export interface CreateUserDTO
 		| 'addWorkspace'
 		| 'updateWorkspace'
 		| 'comparePassword'
+		| 'toObj'
 	> {}
 
 export interface UserRepositoryContract {
-	userLogin(data: LoginUser): Promise<LoginUserResponse>
+	userLogin(data: LoginUser, reconnect?: boolean): Promise<LoginUserResponse>
+	userReconnect(bearer_token: string): Promise<LoginUserResponse>
 	userCreate(data: CreateUserDTO): Promise<string>
 	userUpdate(user_id: string, data: Object): Promise<void>
 	userDelete(user_id: string): Promise<void>

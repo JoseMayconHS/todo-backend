@@ -15,3 +15,5 @@ Para rodar os testes, rode o seguinte comando
 Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de ambiente no seu .env
 
 `NODE_ENV`
+
+`JWT_SECRET`

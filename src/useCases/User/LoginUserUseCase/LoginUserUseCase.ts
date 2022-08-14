@@ -4,7 +4,7 @@ import { validatePassword } from '@utils/validatePassword'
 
 export type LoginUser = {
 	email: string
-	password: string
+	password?: string
 }
 
 export type LoginUserResponse = {

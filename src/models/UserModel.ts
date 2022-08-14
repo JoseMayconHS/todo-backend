@@ -1,5 +1,6 @@
 import bcryptjs from 'bcryptjs'
 import jsonwebtoken from 'jsonwebtoken'
+import { v1 } from 'uuid'
 
 import { Model } from '.'
 import { CreateUserDTO } from './../repositories/userRepository/UserRepository'
@@ -19,6 +20,8 @@ export interface UserPayload
 		| 'setPassword'
 		| 'addWorkspace'
 		| 'updateWorkspace'
+		| 'comparePassword'
+		| 'toObj'
 		| 'payload'
 	> {}
 
@@ -49,9 +52,16 @@ export class UserModel extends Model {
 	}
 
 	token() {
-		const token = jsonwebtoken.sign(this.payload(), process.env.JWT_SECRET, {
-			expiresIn: '24h',
-		})
+		const token = jsonwebtoken.sign(
+			{
+				...this.payload(),
+				token_id: v1(),
+			},
+			process.env.JWT_SECRET,
+			{
+				expiresIn: '24h',
+			}
+		)
 
 		return `Bearer ${token}`
 	}
@@ -109,6 +119,8 @@ export class UserModel extends Model {
 		delete payload.encrypt
 		delete payload.addWorkspace
 		delete payload.payload
+		delete payload.comparePassword
+		delete payload.toObj
 
 		return payload
 	}
