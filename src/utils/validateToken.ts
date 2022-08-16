@@ -1,4 +1,4 @@
-import { UserPayload } from '@models/UserModel'
+import { UserPayload } from '@models/UserModel/UserModel'
 import jsonwebtoken from 'jsonwebtoken'
 
 export function validateToken(bearer_token: string): UserPayload {

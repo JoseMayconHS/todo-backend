@@ -19,9 +19,7 @@ export class MockWorkspaceRepository implements WorkspaceRepositoryContract {
 	): Promise<string> {
 		const user = await this.UserRepository.userGetByID(user_id)
 
-		const workspace = new WorkspaceModel(data)
-
-		user.addWorkspace(workspace)
+		const workspace = user.addWorkspace(data)
 
 		return workspace._id
 	}
@@ -55,17 +53,7 @@ export class MockWorkspaceRepository implements WorkspaceRepositoryContract {
 	async workspaceDelete(workspace_id: string, user_id: string): Promise<void> {
 		const user = await this.UserRepository.userGetByID(user_id)
 
-		const index = user.workspaces.findIndex(
-			(workspace) => workspace._id === workspace_id
-		)
-
-		if (index !== -1) {
-			user.workspaces.splice(index, 1)
-
-			await this.UserRepository.userUpdate(user_id, {
-				workspaces: user.workspaces,
-			})
-		}
+		user.deleteWorkspace(workspace_id)
 	}
 	async workspaceGetByUser(user_id: string): Promise<WorkspaceModel[]> {
 		const user = await this.UserRepository.userGetByID(user_id)

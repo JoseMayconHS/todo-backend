@@ -1,4 +1,4 @@
-import { UserObj } from '@models/UserModel'
+import { UserObj } from '@models/UserModel/UserModel'
 import { UserRepositoryContract } from '@repositories/userRepository/UserRepository'
 import { validatePassword } from '@utils/validatePassword'
 

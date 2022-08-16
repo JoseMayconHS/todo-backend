@@ -1,4 +1,4 @@
-import { UserModel } from '@models/UserModel'
+import { UserModel } from '@models/UserModel/UserModel'
 import {
 	LoginUser,
 	LoginUserResponse,
@@ -22,7 +22,7 @@ export class MockUserRepository implements UserRepositoryContract {
 			throw new Error('Não existe usuário com este e-mail')
 		}
 
-		if (!reconnect && !(await user.comparePassword(password))) {
+		if (!reconnect && !user.comparePassword(password)) {
 			throw new Error('Senha incorreta')
 		}
 

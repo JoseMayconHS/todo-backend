@@ -2,10 +2,10 @@ import bcryptjs from 'bcryptjs'
 import jsonwebtoken from 'jsonwebtoken'
 import { v1 } from 'uuid'
 
-import { Model } from '.'
-import { CreateUserDTO } from './../repositories/userRepository/UserRepository'
-import { CreateWorkspaceDTO } from './../repositories/userRepository/WorkspaceRepository'
-import { WorkspaceModel } from './WorkspaceModel'
+import { Model } from '..'
+import { CreateUserDTO } from '../../repositories/userRepository/UserRepository'
+import { CreateWorkspaceDTO } from '../../repositories/userRepository/WorkspaceRepository'
+import { WorkspaceModel } from '../WorkspaceModel'
 
 export type Checklist = {
 	description: string
@@ -21,6 +21,7 @@ export interface UserPayload
 		| 'addWorkspace'
 		| 'updateWorkspace'
 		| 'comparePassword'
+		| 'deleteWorkspace'
 		| 'toObj'
 		| 'payload'
 	> {}
@@ -34,6 +35,14 @@ export class UserModel extends Model {
 
 	public workspaces?: WorkspaceModel[]
 
+	static validatePassword(password: string) {
+		if (!password.length) {
+			throw new Error('Senha inválida')
+		} else if (password.length < 6) {
+			throw new Error('Senha muito curta')
+		}
+	}
+
 	constructor(props: CreateUserDTO, _id?: string) {
 		super({ ...props, _id } as Model)
 
@@ -43,10 +52,11 @@ export class UserModel extends Model {
 		this.setPassword(props.password, !!_id)
 	}
 
-	async setPassword(password: string, noEncrypt: boolean) {
+	async setPassword(password: string, noEncrypt?: boolean) {
 		if (noEncrypt) {
 			this.password = password
 		} else {
+			UserModel.validatePassword(password)
 			this.encrypt(password)
 		}
 	}
@@ -74,12 +84,16 @@ export class UserModel extends Model {
 		this.password = hash
 	}
 
-	async comparePassword(password: string) {
-		return await bcryptjs.compare(password, this.password)
+	comparePassword(password: string) {
+		return bcryptjs.compareSync(password, this.password)
 	}
 
-	addWorkspace(workspace: WorkspaceModel) {
+	addWorkspace(data: WorkspaceModel): Required<WorkspaceModel> {
+		const workspace = new WorkspaceModel(data) as Required<WorkspaceModel>
+
 		this.workspaces.push(workspace)
+
+		return workspace
 	}
 
 	updateWorkspace(workspace_id: string, data: Partial<CreateWorkspaceDTO>) {
@@ -100,6 +114,16 @@ export class UserModel extends Model {
 		}
 	}
 
+	deleteWorkspace(workspace_id: string) {
+		const index = this.workspaces.findIndex(
+			(workspace) => workspace._id === workspace_id
+		)
+
+		if (index !== -1) {
+			this.workspaces.splice(index, 1)
+		}
+	}
+
 	toObj(): UserObj {
 		const user_obj = this.payload()
 
@@ -113,6 +137,7 @@ export class UserModel extends Model {
 			...this,
 		}
 
+		delete payload.deleteWorkspace
 		delete payload.token
 		delete payload.setPassword
 		delete payload.updateWorkspace

@@ -1,21 +1,10 @@
-import { UserModel } from '@models/UserModel'
+import { UserModel, UserPayload } from '@models/UserModel/UserModel'
 import {
 	LoginUser,
 	LoginUserResponse,
 } from '@useCases/User/LoginUserUseCase/LoginUserUseCase'
 
-export interface CreateUserDTO
-	extends Omit<
-		UserModel,
-		| '_id'
-		| 'token'
-		| 'encrypt'
-		| 'setPassword'
-		| 'addWorkspace'
-		| 'updateWorkspace'
-		| 'comparePassword'
-		| 'toObj'
-	> {}
+export interface CreateUserDTO extends Omit<UserPayload, '_id'> {}
 
 export interface UserRepositoryContract {
 	userLogin(data: LoginUser, reconnect?: boolean): Promise<LoginUserResponse>
