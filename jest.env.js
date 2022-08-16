@@ -1,3 +1,3 @@
 const dotenv = require('dotenv')
 
-dotenv.config({ path: './.test.env' })
+dotenv.config({ path: '.test.env' })

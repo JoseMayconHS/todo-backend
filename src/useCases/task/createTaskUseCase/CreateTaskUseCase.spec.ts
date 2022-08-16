@@ -3,10 +3,10 @@ import { TaskRepository } from '../../../repositories/repositories'
 import {
 	UserRepository,
 	WorkspaceRepository,
-} from './../../../repositories/repositories'
-import { CreateUserUseCase } from './../../User/CreateUserUseCase/CreateUserUseCase'
-import { CreateWorkspaceByUserUseCase } from './../../Workspace/CreateWorkspaceByUserUseCase/CreateWorkspaceByUserUseCase'
-import { FindWorkspaceByIDUseCase } from './../../Workspace/FindWorkspaceByIDUseCase/FindWorkspaceByIDUseCase'
+} from '../../../repositories/repositories'
+import { CreateUserUseCase } from '../../User/CreateUserUseCase/CreateUserUseCase'
+import { CreateWorkspaceByUserUseCase } from '../../Workspace/CreateWorkspaceByUserUseCase/CreateWorkspaceByUserUseCase'
+import { FindWorkspaceByIDUseCase } from '../../Workspace/FindWorkspaceByIDUseCase/FindWorkspaceByIDUseCase'
 import { CreateTaskUseCase } from './CreateTaskUseCase'
 
 describe('Create Task', () => {

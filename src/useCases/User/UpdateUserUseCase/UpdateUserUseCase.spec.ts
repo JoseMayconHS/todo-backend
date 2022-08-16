@@ -1,6 +1,6 @@
+import { UserRepository } from '../../../repositories/repositories'
 import { CreateUserUseCase } from '../CreateUserUseCase/CreateUserUseCase'
 import { FindUserByIDUseCase } from '../FindUserByIDUseCase/FindUserByIDUseCase'
-import { UserRepository } from './../../../repositories/repositories'
 import { UpdateUserUseCase } from './UpdateUserUseCase'
 
 describe('Update Task', () => {

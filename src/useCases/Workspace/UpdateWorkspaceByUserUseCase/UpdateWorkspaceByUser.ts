@@ -1,4 +1,4 @@
-import { WorkspaceRepositoryContract } from './../../../repositories/userRepository/WorkspaceRepository'
+import { WorkspaceRepositoryContract } from '@repositories/userRepository/WorkspaceRepository'
 
 export class UpdateWorkspaceByUser {
 	constructor(private WorkspaceRepository: WorkspaceRepositoryContract) {}

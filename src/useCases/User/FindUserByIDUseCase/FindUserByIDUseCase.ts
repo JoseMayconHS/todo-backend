@@ -1,5 +1,5 @@
 import { UserModel } from '@models/UserModel/UserModel'
-import { UserRepositoryContract } from '../../../repositories/userRepository/UserRepository'
+import { UserRepositoryContract } from '@repositories/userRepository/UserRepository'
 
 export class FindUserByIDUseCase {
 	constructor(private UserRepository: UserRepositoryContract) {}

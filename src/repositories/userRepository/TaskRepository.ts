@@ -1,4 +1,4 @@
-import { TaskModel } from '@models/TaskModel'
+import { TaskModel } from '@models/TaskModel/TaskModel'
 
 export interface CreateTaskDTO extends Omit<TaskModel, 'doneAt' | '_id'> {}
 

@@ -1,4 +1,4 @@
-import { UserRepositoryContract } from '../../../repositories/userRepository/UserRepository'
+import { UserRepositoryContract } from '@repositories/userRepository/UserRepository'
 
 export class DeleteUserUseCase {
 	constructor(private UserRepository: UserRepositoryContract) {}

@@ -1,7 +1,7 @@
-import { TaskModel } from '@models/TaskModel'
-import { WorkspaceModel } from '@models/WorkspaceModel'
-import { UserRepositoryContract } from './../UserRepository'
-import { WorkspaceRepositoryContract } from './../WorkspaceRepository'
+import { TaskModel } from '@models/TaskModel/TaskModel'
+import { WorkspaceModel } from '@models/WorkspaceModel/WorkspaceModel'
+import { UserRepositoryContract } from '../UserRepository'
+import { WorkspaceRepositoryContract } from '../WorkspaceRepository'
 
 import { CreateTaskDTO, TaskRepositoryContract } from '../TaskRepository'
 

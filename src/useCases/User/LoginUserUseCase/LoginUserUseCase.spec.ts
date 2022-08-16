@@ -1,5 +1,5 @@
 import { UserRepository } from '../../../repositories/repositories'
-import { CreateUserUseCase } from './../CreateUserUseCase/CreateUserUseCase'
+import { CreateUserUseCase } from '../CreateUserUseCase/CreateUserUseCase'
 import { LoginUserUseCase } from './LoginUserUseCase'
 
 describe('Login User', () => {

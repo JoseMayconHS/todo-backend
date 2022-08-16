@@ -1,9 +1,9 @@
 import {
 	UserRepository,
 	WorkspaceRepository,
-} from './../../../repositories/repositories'
+} from '../../../repositories/repositories'
 
-import { CreateUserUseCase } from './../../User/CreateUserUseCase/CreateUserUseCase'
+import { CreateUserUseCase } from '../../User/CreateUserUseCase/CreateUserUseCase'
 import { FindWorkspaceByUserUseCase } from './FindWorkspaceByUserUseCase'
 
 describe('Find Workspaces by User', () => {

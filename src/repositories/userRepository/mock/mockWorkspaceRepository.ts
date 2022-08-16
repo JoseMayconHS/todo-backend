@@ -1,4 +1,4 @@
-import { WorkspaceModel } from '@models/WorkspaceModel'
+import { WorkspaceModel } from '@models/WorkspaceModel/WorkspaceModel'
 import { UserRepositoryContract } from '../UserRepository'
 
 import {
@@ -19,7 +19,7 @@ export class MockWorkspaceRepository implements WorkspaceRepositoryContract {
 	): Promise<string> {
 		const user = await this.UserRepository.userGetByID(user_id)
 
-		const workspace = user.addWorkspace(data)
+		const workspace = user.addWorkspace(data as WorkspaceModel)
 
 		return workspace._id
 	}

@@ -1,12 +1,12 @@
-import { CreateTaskUseCase } from './../CreateTaskUseCase/CreateTaskUseCase'
+import { CreateTaskUseCase } from '../CreateTaskUseCase/CreateTaskUseCase'
 
-import { TaskRepository } from '../../../repositories/repositories'
-import { CreateWorkspaceByUserUseCase } from '../../Workspace/CreateWorkspaceByUserUseCase/CreateWorkspaceByUserUseCase'
 import {
+	TaskRepository,
 	UserRepository,
 	WorkspaceRepository,
-} from './../../../repositories/repositories'
-import { CreateUserUseCase } from './../../User/CreateUserUseCase/CreateUserUseCase'
+} from '../../../repositories/repositories'
+import { CreateUserUseCase } from '../../User/CreateUserUseCase/CreateUserUseCase'
+import { CreateWorkspaceByUserUseCase } from '../../Workspace/CreateWorkspaceByUserUseCase/CreateWorkspaceByUserUseCase'
 import { FindTaskByWorkspaceUseCase } from './FindTaskByWorkspaceUseCase'
 
 describe('Find Tasks by workspace', () => {

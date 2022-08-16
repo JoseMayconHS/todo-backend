@@ -1,4 +1,4 @@
-import { TaskRepositoryContract } from '../../../repositories/userRepository/TaskRepository'
+import { TaskRepositoryContract } from '@repositories/userRepository/TaskRepository'
 
 export class UpdateTaskUseCase {
 	constructor(private TaskRepository: TaskRepositoryContract) {}

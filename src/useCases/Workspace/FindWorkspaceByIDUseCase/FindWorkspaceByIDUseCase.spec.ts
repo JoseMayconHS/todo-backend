@@ -2,7 +2,7 @@ import {
 	UserRepository,
 	WorkspaceRepository,
 } from '../../../repositories/repositories'
-import { CreateWorkspaceByUserUseCase } from './../CreateWorkspaceByUserUseCase/CreateWorkspaceByUserUseCase'
+import { CreateWorkspaceByUserUseCase } from '../CreateWorkspaceByUserUseCase/CreateWorkspaceByUserUseCase'
 
 import { CreateUserUseCase } from '../../User/CreateUserUseCase/CreateUserUseCase'
 import { FindWorkspaceByIDUseCase } from './FindWorkspaceByIDUseCase'

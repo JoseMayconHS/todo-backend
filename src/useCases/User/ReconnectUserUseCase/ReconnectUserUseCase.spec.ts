@@ -1,7 +1,7 @@
 import { UserRepository } from '../../../repositories/repositories'
 import { CreateUserUseCase } from '../CreateUserUseCase/CreateUserUseCase'
-import { FindUserByIDUseCase } from './../FindUserByIDUseCase/FindUserByIDUseCase'
-import { LoginUserUseCase } from './../LoginUserUseCase/LoginUserUseCase'
+import { FindUserByIDUseCase } from '../FindUserByIDUseCase/FindUserByIDUseCase'
+import { LoginUserUseCase } from '../LoginUserUseCase/LoginUserUseCase'
 import { ReconnectUserUseCase } from './ReconnectUserUseCase'
 
 describe('Login User', () => {

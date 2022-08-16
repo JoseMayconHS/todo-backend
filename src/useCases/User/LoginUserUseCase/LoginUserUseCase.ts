@@ -1,6 +1,5 @@
-import { UserObj } from '@models/UserModel/UserModel'
+import { UserModel, UserObj } from '@models/UserModel/UserModel'
 import { UserRepositoryContract } from '@repositories/userRepository/UserRepository'
-import { validatePassword } from '@utils/validatePassword'
 
 export type LoginUser = {
 	email: string
@@ -24,7 +23,7 @@ export class LoginUserUseCase {
 			throw new Error('E-mail inválido')
 		}
 
-		validatePassword(data.password)
+		UserModel.validatePassword(data.password)
 
 		const payload = await this.UserRepository.userLogin(data)
 

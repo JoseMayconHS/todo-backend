@@ -2,9 +2,9 @@ import {
 	UserRepository,
 	WorkspaceRepository,
 } from '../../../repositories/repositories'
-import { CreateUserUseCase } from './../../User/CreateUserUseCase/CreateUserUseCase'
-import { FindUserByIDUseCase } from './../../User/FindUserByIDUseCase/FindUserByIDUseCase'
-import { CreateWorkspaceByUserUseCase } from './../CreateWorkspaceByUserUseCase/CreateWorkspaceByUserUseCase'
+import { CreateUserUseCase } from '../../User/CreateUserUseCase/CreateUserUseCase'
+import { FindUserByIDUseCase } from '../../User/FindUserByIDUseCase/FindUserByIDUseCase'
+import { CreateWorkspaceByUserUseCase } from '../CreateWorkspaceByUserUseCase/CreateWorkspaceByUserUseCase'
 import { DeleteWorkspaceByUserUseCase } from './DeleteWorkspaceByUserUseCase'
 
 describe('Delete Workspace by user', () => {

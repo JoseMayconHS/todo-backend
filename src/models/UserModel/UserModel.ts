@@ -2,10 +2,16 @@ import bcryptjs from 'bcryptjs'
 import jsonwebtoken from 'jsonwebtoken'
 import { v1 } from 'uuid'
 
+import { TaskModel } from '@models/TaskModel/TaskModel'
+import {
+	CreateStepDTO,
+	Step,
+	WorkspaceModel,
+} from '@models/WorkspaceModel/WorkspaceModel'
+import { CreateTaskDTO } from '@repositories/userRepository/TaskRepository'
+import { CreateUserDTO } from '@repositories/userRepository/UserRepository'
+import { CreateWorkspaceDTO } from '@repositories/userRepository/WorkspaceRepository'
 import { Model } from '..'
-import { CreateUserDTO } from '../../repositories/userRepository/UserRepository'
-import { CreateWorkspaceDTO } from '../../repositories/userRepository/WorkspaceRepository'
-import { WorkspaceModel } from '../WorkspaceModel'
 
 export type Checklist = {
 	description: string
@@ -18,10 +24,16 @@ export interface UserPayload
 		| 'token'
 		| 'encrypt'
 		| 'setPassword'
+		| 'comparePassword'
 		| 'addWorkspace'
 		| 'updateWorkspace'
-		| 'comparePassword'
 		| 'deleteWorkspace'
+		| 'addTask'
+		| 'updateTask'
+		| 'deleteTask'
+		| 'addStepToWorkspace'
+		| 'updateStepInWorkspace'
+		| 'deleteStepInWorkspace'
 		| 'toObj'
 		| 'payload'
 	> {}
@@ -124,6 +136,123 @@ export class UserModel extends Model {
 		}
 	}
 
+	addTask(workspace_id: string, data: CreateTaskDTO): Required<TaskModel> {
+		const workspace_index = this.workspaces.findIndex(
+			(workspace) => workspace._id === workspace_id
+		)
+
+		if (workspace_index !== -1) {
+			const task = new TaskModel(data) as Required<TaskModel>
+
+			this.workspaces[workspace_index].tasks.push(task)
+
+			return task
+		}
+	}
+
+	updateTask(
+		task_id: string,
+		workspace_id: string,
+		data: Partial<CreateTaskDTO>
+	) {
+		const workspace_index = this.workspaces.findIndex(
+			(workspace) => workspace._id === workspace_id
+		)
+
+		if (workspace_index !== -1) {
+			const workspace = this.workspaces[workspace_index]
+
+			const task_index = workspace.tasks.findIndex(
+				(task) => task._id === task_id
+			)
+
+			const task_updated = new TaskModel(
+				{
+					...workspace.tasks[task_index],
+					...data,
+				},
+				task_id
+			)
+
+			this.workspaces[workspace_index].tasks.splice(task_index, 1, task_updated)
+		}
+	}
+
+	deleteTask(task_id: string, workspace_id: string) {
+		const workspace_index = this.workspaces.findIndex(
+			(workspace) => workspace._id === workspace_id
+		)
+
+		if (workspace_index !== -1) {
+			const workspace = this.workspaces[workspace_index]
+
+			const task_index = workspace.tasks.findIndex(
+				(task) => task._id === task_id
+			)
+
+			this.workspaces[workspace_index].tasks.splice(task_index, 1)
+		}
+	}
+
+	addStepToWorkspace(
+		workspace_id: string,
+		data: CreateStepDTO
+	): Required<Step> {
+		const index = this.workspaces.findIndex(
+			(workspace) => workspace._id === workspace_id
+		)
+
+		if (index !== -1) {
+			const step = WorkspaceModel.createStep(data)
+
+			this.workspaces[index].steps.push(step)
+
+			return step
+		}
+	}
+
+	updateStepInWorkspace(
+		step_id: string,
+		workspace_id: string,
+		data: CreateStepDTO
+	) {
+		const workspace_index = this.workspaces.findIndex(
+			(workspace) => workspace._id === workspace_id
+		)
+
+		if (workspace_index !== -1) {
+			const step_index = this.workspaces[workspace_index].steps.findIndex(
+				(step) => step._id === step_id
+			)
+
+			if (step_index !== -1) {
+				const step = this.workspaces[workspace_index].steps[step_index]
+
+				this.workspaces[workspace_index].steps[step_index] = {
+					...step,
+					...data,
+					_id: step_id,
+				}
+			}
+		}
+	}
+
+	deleteStepInWorkspace(step_id: string, workspace_id: string) {
+		const workspace_index = this.workspaces.findIndex(
+			(workspace) => workspace._id === workspace_id
+		)
+
+		if (workspace_index !== -1) {
+			const step_index = this.workspaces[workspace_index].steps.findIndex(
+				(step) => step._id === step_id
+			)
+
+			if (step_index !== -1) {
+				this.workspaces[workspace_index].steps.splice(step_index, 1)
+			}
+		}
+	}
+
 	toObj(): UserObj {
 		const user_obj = this.payload()
 
@@ -137,15 +266,24 @@ export class UserModel extends Model {
 			...this,
 		}
 
-		delete payload.deleteWorkspace
 		delete payload.token
-		delete payload.setPassword
-		delete payload.updateWorkspace
-		delete payload.encrypt
-		delete payload.addWorkspace
-		delete payload.payload
 		delete payload.comparePassword
+		delete payload.setPassword
+		delete payload.encrypt
+		delete payload.payload
 		delete payload.toObj
+
+		delete payload.addWorkspace
+		delete payload.deleteWorkspace
+		delete payload.updateWorkspace
+
+		delete payload.addTask
+		delete payload.updateTask
+		delete payload.deleteTask
+
+		delete payload.addStepToWorkspace
+		delete payload.updateStepInWorkspace
+		delete payload.deleteStepInWorkspace
 
 		return payload
 	}

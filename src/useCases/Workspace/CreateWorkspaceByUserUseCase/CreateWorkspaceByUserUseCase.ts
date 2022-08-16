@@ -1,7 +1,7 @@
 import {
 	CreateWorkspaceDTO,
 	WorkspaceRepositoryContract,
-} from '../../../repositories/userRepository/WorkspaceRepository'
+} from '@repositories/userRepository/WorkspaceRepository'
 
 export class CreateWorkspaceByUserUseCase {
 	constructor(private WorkspaceRepository: WorkspaceRepositoryContract) {}

@@ -6,7 +6,7 @@ import {
 import { CreateUserUseCase } from '../../User/CreateUserUseCase/CreateUserUseCase'
 import { CreateWorkspaceByUserUseCase } from '../../Workspace/CreateWorkspaceByUserUseCase/CreateWorkspaceByUserUseCase'
 import { CreateTaskUseCase } from '../CreateTaskUseCase/CreateTaskUseCase'
-import { FindTaskByWorkspaceUseCase } from './../FindTaskByWorkspaceUseCase/FindTaskByWorkspaceUseCase'
+import { FindTaskByWorkspaceUseCase } from '../FindTaskByWorkspaceUseCase/FindTaskByWorkspaceUseCase'
 import { UpdateTaskUseCase } from './UpdateTaskUseCase'
 
 describe('Update Task', () => {

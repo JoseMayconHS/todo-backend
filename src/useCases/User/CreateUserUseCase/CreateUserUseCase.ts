@@ -1,8 +1,8 @@
+import { UserModel } from '@models/UserModel/UserModel'
 import {
 	CreateUserDTO,
 	UserRepositoryContract,
 } from '@repositories/userRepository/UserRepository'
-import { validatePassword } from '@utils/validatePassword'
 
 export class CreateUserUseCase {
 	constructor(private UserRepository: UserRepositoryContract) {}
@@ -16,7 +16,7 @@ export class CreateUserUseCase {
 			throw new Error('E-mail inválido')
 		}
 
-		validatePassword(data.password)
+		UserModel.validatePassword(data.password)
 
 		const _id = await this.UserRepository.userCreate(data)
 

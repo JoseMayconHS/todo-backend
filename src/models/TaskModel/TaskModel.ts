@@ -1,4 +1,4 @@
-import { Model } from '.'
+import { Model } from '..'
 
 export type Checklist = {
 	description: string

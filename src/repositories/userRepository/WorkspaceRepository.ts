@@ -1,4 +1,4 @@
-import { WorkspaceModel } from '@models/WorkspaceModel'
+import { WorkspaceModel } from '@models/WorkspaceModel/WorkspaceModel'
 import { UserRepositoryContract } from './UserRepository'
 
 export interface CreateWorkspaceDTO extends Omit<WorkspaceModel, '_id'> {}
