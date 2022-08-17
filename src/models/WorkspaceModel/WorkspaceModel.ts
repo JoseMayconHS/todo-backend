@@ -28,7 +28,7 @@ export class WorkspaceModel extends Model {
 		return {
 			_id: v4(),
 			label: data.label,
-			index: data.index,
+			index: data.index ?? 0,
 		}
 	}
 

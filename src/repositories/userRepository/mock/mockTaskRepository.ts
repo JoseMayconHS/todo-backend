@@ -19,9 +19,7 @@ export class MockTaskRepository implements TaskRepositoryContract {
 	): Promise<string> {
 		const user = await this.UserRepository.userGetByID(user_id)
 
-		const workspaces = await this.WorkspaceRepository.workspaceGetByUser(
-			user_id
-		)
+		const { workspaces } = user
 
 		const Task = new TaskModel(data)
 
@@ -48,9 +46,7 @@ export class MockTaskRepository implements TaskRepositoryContract {
 	): Promise<void> {
 		const user = await this.UserRepository.userGetByID(user_id)
 
-		const workspaces = await this.WorkspaceRepository.workspaceGetByUser(
-			user_id
-		)
+		const { workspaces } = user
 
 		const workspace_index = workspaces.findIndex(
 			(workspace) => workspace._id === workspace_id
@@ -83,9 +79,7 @@ export class MockTaskRepository implements TaskRepositoryContract {
 	): Promise<void> {
 		const user = await this.UserRepository.userGetByID(user_id)
 
-		const workspaces = await this.WorkspaceRepository.workspaceGetByUser(
-			user_id
-		)
+		const { workspaces } = user
 
 		const workspace_index = workspaces.findIndex(
 			(workspace) => workspace._id === workspace_id
