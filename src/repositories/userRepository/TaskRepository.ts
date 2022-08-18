@@ -1,6 +1,6 @@
 import { TaskModel } from '@models/TaskModel/TaskModel'
 
-export interface CreateTaskDTO extends Omit<TaskModel, 'doneAt' | '_id'> {}
+export interface CreateTaskDTO extends Omit<TaskModel, '_id'> {}
 
 export interface TaskRepositoryContract {
 	taskCreate(

@@ -1,5 +1,5 @@
 import { CreateStepDTO } from '@models/WorkspaceModel/WorkspaceModel'
-import { WorkspaceStepRepositoryContract } from './../../../repositories/userRepository/WorkspaceStepRepository'
+import { WorkspaceStepRepositoryContract } from '@repositories/userRepository/WorkspaceStepRepository'
 
 export class CreateWorkspaceStepUseCase {
 	constructor(

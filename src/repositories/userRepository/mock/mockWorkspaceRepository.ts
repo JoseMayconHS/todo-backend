@@ -37,7 +37,7 @@ export class MockWorkspaceRepository implements WorkspaceRepositoryContract {
 		if (index !== -1) {
 			const newWorkspace = new WorkspaceModel(
 				{
-					...user.workspaces[index],
+					...user.workspaces[index].toObj(),
 					...data,
 				},
 				workspace_id

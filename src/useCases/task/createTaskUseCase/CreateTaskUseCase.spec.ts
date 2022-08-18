@@ -1,3 +1,4 @@
+import { TaskModel } from '../../../models/TaskModel/TaskModel'
 import { TaskRepository } from '../../../repositories/repositories'
 
 import {
@@ -85,5 +86,6 @@ describe('Create Task', () => {
 		)
 
 		expect(workspace.tasks).toHaveLength(1)
+		expect(workspace.tasks[0]).toBeInstanceOf(TaskModel)
 	})
 })

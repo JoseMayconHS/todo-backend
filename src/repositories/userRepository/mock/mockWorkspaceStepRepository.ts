@@ -30,32 +30,7 @@ export class MockWorkspaceStepRepository
 	): Promise<void> {
 		const user = await this.UserRepository.userGetByID(user_id)
 
-		const index = user.workspaces.findIndex(
-			(workspace) => workspace._id === workspace_id
-		)
-
-		if (index !== -1) {
-			const workspace = user.workspaces[index]
-
-			const step_index = workspace.steps.findIndex(
-				(step) => step._id === step_id
-			)
-
-			if (step_index !== -1) {
-				const newStep = {
-					...workspace.steps[step_index],
-					...data,
-				}
-
-				workspace.steps.splice(step_index, 1, newStep)
-
-				user.workspaces.splice(index, 1, workspace)
-
-				await this.UserRepository.userUpdate(user_id, {
-					workspaces: user.workspaces,
-				})
-			}
-		}
+		user.updateStepInWorkspace(step_id, workspace_id, data)
 	}
 	async workspaceStepDelete(
 		step_id: string,
@@ -64,26 +39,6 @@ export class MockWorkspaceStepRepository
 	): Promise<void> {
 		const user = await this.UserRepository.userGetByID(user_id)
 
-		const index = user.workspaces.findIndex(
-			(workspace) => workspace._id === workspace_id
-		)
-
-		if (index !== -1) {
-			const workspace = user.workspaces[index]
-
-			const step_index = workspace.steps.findIndex(
-				(step) => step._id === step_id
-			)
-
-			if (step_index !== -1) {
-				workspace.steps.splice(step_index, 1)
-
-				user.workspaces.splice(index, 1, workspace)
-
-				await this.UserRepository.userUpdate(user_id, {
-					workspaces: user.workspaces,
-				})
-			}
-		}
+		user.deleteStepInWorkspace(step_id, workspace_id)
 	}
 }

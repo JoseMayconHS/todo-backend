@@ -12,6 +12,7 @@ export interface UserRepositoryContract {
 	userCreate(data: CreateUserDTO): Promise<string>
 	userUpdate(user_id: string, data: Object): Promise<void>
 	userDelete(user_id: string): Promise<void>
+	userExists(user_id: string): Promise<boolean>
 	userGetByID(user_id: string): Promise<Required<UserModel> | undefined>
 	userGetByEmail(email: string): Promise<Required<UserModel> | undefined>
 }

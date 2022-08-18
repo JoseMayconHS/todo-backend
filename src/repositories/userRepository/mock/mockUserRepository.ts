@@ -43,17 +43,25 @@ export class MockUserRepository implements UserRepositoryContract {
 	}
 
 	async userCreate(data: CreateUserDTO): Promise<string> {
-		const User = new UserModel(data as UserModel) as Required<UserModel>
+		if (!this.users.some((user) => user.email === data.email)) {
+			const User = new UserModel(data as UserModel) as Required<UserModel>
 
-		this.users.push(User)
+			this.users.push(User)
 
-		return User._id
+			return User._id
+		} else {
+			throw new Error('E-mail já cadastrado')
+		}
 	}
 
 	async userGetByID(user_id: string): Promise<Required<UserModel> | undefined> {
 		const user = this.users.find((user) => user._id === user_id)
 
 		return user
+	}
+
+	async userExists(user_id: string): Promise<boolean> {
+		return this.users.some((user) => user._id === user_id)
 	}
 
 	async userGetByEmail(

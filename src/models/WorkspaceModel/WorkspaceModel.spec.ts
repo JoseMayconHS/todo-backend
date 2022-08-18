@@ -35,4 +35,32 @@ describe('WorkspaceModel', () => {
 		expect(workspace.members_id).toHaveLength(0)
 		expect(workspace.tasks).toHaveLength(0)
 	})
+
+	it('should be able add member_id', () => {
+		const workspace = new WorkspaceModel({
+			title: 'Dia-a-dia',
+		})
+
+		expect(workspace.members_id).toHaveLength(0)
+
+		workspace.addMember('123')
+
+		expect(workspace.members_id).toHaveLength(1)
+	})
+
+	it('should be able delete member_id', () => {
+		const workspace = new WorkspaceModel({
+			title: 'Dia-a-dia',
+		})
+
+		expect(workspace.members_id).toHaveLength(0)
+
+		workspace.addMember('123')
+
+		expect(workspace.members_id).toHaveLength(1)
+
+		workspace.deleteMember('123')
+
+		expect(workspace.members_id).toHaveLength(0)
+	})
 })

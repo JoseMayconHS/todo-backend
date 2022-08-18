@@ -1,5 +1,6 @@
 import { MockTaskRepository } from './userRepository/mock/mockTaskRepository'
 import { MockUserRepository } from './userRepository/mock/mockUserRepository'
+import { MockWorkspaceMemberRepository } from './userRepository/mock/mockWorkspaceMemberRepository'
 import { MockWorkspaceRepository } from './userRepository/mock/mockWorkspaceRepository'
 import { MockWorkspaceStepRepository } from './userRepository/mock/mockWorkspaceStepRepository'
 
@@ -12,6 +13,10 @@ export const TaskRepository = production
 export const WorkspaceStepRepository = production
 	? MockWorkspaceStepRepository
 	: MockWorkspaceStepRepository
+
+export const WorkspaceMemberRepository = production
+	? MockWorkspaceMemberRepository
+	: MockWorkspaceMemberRepository
 
 export const WorkspaceRepository = production
 	? MockWorkspaceRepository

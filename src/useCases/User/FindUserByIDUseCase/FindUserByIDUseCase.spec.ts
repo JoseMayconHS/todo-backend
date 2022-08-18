@@ -1,5 +1,6 @@
 import { UserRepository } from '../../../repositories/repositories'
 import { CreateUserUseCase } from '../CreateUserUseCase/CreateUserUseCase'
+import { DeleteUserUseCase } from './../DeleteUserUseCase/DeleteUserUseCase'
 import { FindUserByIDUseCase } from './FindUserByIDUseCase'
 
 describe('Find user by ID', () => {
@@ -7,13 +8,22 @@ describe('Find user by ID', () => {
 
 	const findUserByIDUseCase = new FindUserByIDUseCase(userRepository)
 	const createUserUseCase = new CreateUserUseCase(userRepository)
+	const deleteUserUseCase = new DeleteUserUseCase(userRepository)
+
+	let user_id
+
+	afterEach(async () => {
+		try {
+			await deleteUserUseCase.execute(user_id)
+		} catch (e) {}
+	})
 
 	it('should not be able find user without ID', async () => {
 		await expect(findUserByIDUseCase.execute('')).rejects.toThrow()
 	})
 
 	it('should be able find user by ID', async () => {
-		const user_id = await createUserUseCase.execute({
+		user_id = await createUserUseCase.execute({
 			name: 'Maycon Silva',
 			password: '123456',
 			email: 'a@g.com',
@@ -25,7 +35,7 @@ describe('Find user by ID', () => {
 	})
 
 	it('should be able get user token', async () => {
-		const user_id = await createUserUseCase.execute({
+		user_id = await createUserUseCase.execute({
 			name: 'Maycon Silva',
 			password: '123456',
 			email: 'a@g.com',

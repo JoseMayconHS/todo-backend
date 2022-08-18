@@ -4,6 +4,7 @@ import {
 } from '../../../repositories/repositories'
 import { CreateWorkspaceByUserUseCase } from '../CreateWorkspaceByUserUseCase/CreateWorkspaceByUserUseCase'
 
+import { WorkspaceModel } from '../../../models/WorkspaceModel/WorkspaceModel'
 import { CreateUserUseCase } from '../../User/CreateUserUseCase/CreateUserUseCase'
 import { FindWorkspaceByIDUseCase } from './FindWorkspaceByIDUseCase'
 
@@ -47,6 +48,6 @@ describe('Find Workspaces by User', () => {
 			user_id
 		)
 
-		expect(workspace).toBeDefined()
+		expect(workspace).toBeInstanceOf(WorkspaceModel)
 	})
 })

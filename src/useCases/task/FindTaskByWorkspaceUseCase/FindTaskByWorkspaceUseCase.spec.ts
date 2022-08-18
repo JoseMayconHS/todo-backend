@@ -1,5 +1,6 @@
 import { CreateTaskUseCase } from '../CreateTaskUseCase/CreateTaskUseCase'
 
+import { TaskModel } from '../../../models/TaskModel/TaskModel'
 import {
 	TaskRepository,
 	UserRepository,
@@ -61,5 +62,6 @@ describe('Find Tasks by workspace', () => {
 		)
 
 		expect(tasks).toHaveLength(1)
+		expect(tasks[0]).toBeInstanceOf(TaskModel)
 	})
 })

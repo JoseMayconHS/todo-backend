@@ -25,6 +25,7 @@ export interface UserPayload
 		| 'encrypt'
 		| 'setPassword'
 		| 'comparePassword'
+		| 'getWorkspace'
 		| 'addWorkspace'
 		| 'updateWorkspace'
 		| 'deleteWorkspace'
@@ -34,6 +35,8 @@ export interface UserPayload
 		| 'addStepToWorkspace'
 		| 'updateStepInWorkspace'
 		| 'deleteStepInWorkspace'
+		| 'addMemberToWorkspace'
+		| 'deleteMemberInWorkspace'
 		| 'toObj'
 		| 'payload'
 	> {}
@@ -45,7 +48,7 @@ export class UserModel extends Model {
 	public email: string
 	public password: string
 
-	public workspaces?: WorkspaceModel[]
+	public workspaces: WorkspaceModel[]
 
 	static validatePassword(password: string) {
 		if (!password.length) {
@@ -128,6 +131,14 @@ export class UserModel extends Model {
 		return bcryptjs.compareSync(password, this.password)
 	}
 
+	getWorkspace(workspace_id: string) {
+		const workspace = this.workspaces.find(
+			(workspace) => workspace._id === workspace_id
+		)
+
+		return workspace
+	}
+
 	addWorkspace(data: WorkspaceModel): Required<WorkspaceModel> {
 		const workspace = new WorkspaceModel(data) as Required<WorkspaceModel>
 
@@ -144,7 +155,7 @@ export class UserModel extends Model {
 		if (index !== -1) {
 			const workspace_updated = new WorkspaceModel(
 				{
-					...this.workspaces[index],
+					...this.workspaces[index].toObj(),
 					...data,
 				},
 				workspace_id
@@ -196,7 +207,7 @@ export class UserModel extends Model {
 
 			const task_updated = new TaskModel(
 				{
-					...workspace.tasks[task_index],
+					...workspace.tasks[task_index].toObj(),
 					...data,
 				},
 				task_id
@@ -242,7 +253,7 @@ export class UserModel extends Model {
 	updateStepInWorkspace(
 		step_id: string,
 		workspace_id: string,
-		data: CreateStepDTO
+		data: Partial<CreateStepDTO>
 	) {
 		const workspace_index = this.workspaces.findIndex(
 			(workspace) => workspace._id === workspace_id
@@ -256,16 +267,51 @@ export class UserModel extends Model {
 			if (step_index !== -1) {
 				const step = this.workspaces[workspace_index].steps[step_index]
 
-				this.workspaces[workspace_index].steps[step_index] = {
+				const step_updated = {
 					...step,
 					...data,
 					_id: step_id,
 				}
+
+				this.workspaces[workspace_index].steps.splice(
+					step_index,
+					1,
+					step_updated
+				)
 			}
 		}
 	}
 
 	deleteStepInWorkspace(step_id: string, workspace_id: string) {
+		const workspace_index = this.workspaces.findIndex(
+			(workspace) => workspace._id === workspace_id
+		)
+
+		if (workspace_index !== -1) {
+			const step_index = this.workspaces[workspace_index].steps.findIndex(
+				(step) => step._id === step_id
+			)
+
+			if (step_index !== -1) {
+				this.workspaces[workspace_index].steps.splice(step_index, 1)
+			}
+		}
+	}
+
+	addMemberToWorkspace(
+		workspace_id: string,
+		member_id: string
+	): Required<void> {
+		const workspace = this.getWorkspace(workspace_id)
+
+		workspace.addMember(member_id)
+
+		this.updateWorkspace(workspace_id, {
+			members_id: workspace.members_id,
+		})
+	}
+
+	deleteMemberInWorkspace(step_id: string, workspace_id: string) {
 		const workspace_index = this.workspaces.findIndex(
 			(workspace) => workspace._id === workspace_id
 		)
@@ -301,6 +347,7 @@ export class UserModel extends Model {
 		delete payload.payload
 		delete payload.toObj
 
+		delete payload.getWorkspace
 		delete payload.addWorkspace
 		delete payload.deleteWorkspace
 		delete payload.updateWorkspace
@@ -312,6 +359,9 @@ export class UserModel extends Model {
 		delete payload.addStepToWorkspace
 		delete payload.updateStepInWorkspace
 		delete payload.deleteStepInWorkspace
+
+		delete payload.addMemberToWorkspace
+		delete payload.deleteMemberInWorkspace
 
 		return payload
 	}

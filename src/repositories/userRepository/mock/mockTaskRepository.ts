@@ -9,7 +9,7 @@ export class MockTaskRepository implements TaskRepositoryContract {
 	private UserRepository: UserRepositoryContract
 
 	constructor(private WorkspaceRepository: WorkspaceRepositoryContract) {
-		this.UserRepository = WorkspaceRepository.userRepository
+		this.UserRepository = this.WorkspaceRepository.userRepository
 	}
 
 	async taskCreate(
@@ -29,7 +29,7 @@ export class MockTaskRepository implements TaskRepositoryContract {
 
 		if (workspace_index !== -1) {
 			const new_workspace: WorkspaceModel = {
-				...workspaces[workspace_index],
+				...workspaces[workspace_index].toObj(),
 				tasks: [...workspaces[workspace_index].tasks, Task],
 			}
 
@@ -60,7 +60,7 @@ export class MockTaskRepository implements TaskRepositoryContract {
 			if (task_index !== -1) {
 				const task_updated = new TaskModel(
 					{
-						...tasks[task_index],
+						...tasks[task_index].toObj(),
 						...data,
 					},
 					task_id
@@ -91,7 +91,7 @@ export class MockTaskRepository implements TaskRepositoryContract {
 			)
 
 			const new_workspace: WorkspaceModel = {
-				...workspaces[workspace_index],
+				...workspaces[workspace_index].toObj(),
 				tasks: new_tasks,
 			}
 

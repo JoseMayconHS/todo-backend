@@ -3,11 +3,6 @@ import { CreateWorkspaceDTO } from '@repositories/userRepository/WorkspaceReposi
 import { v4 } from 'uuid'
 import { Model } from '..'
 
-export type Checklist = {
-	description: string
-	done: boolean
-}
-
 export type Step = {
 	_id?: string
 	label: string
@@ -18,11 +13,11 @@ export type CreateStepDTO = Omit<Step, '_id'>
 
 export class WorkspaceModel extends Model {
 	public title: string
-	public members_id?: string[]
-	public favorite?: boolean
-	public description?: string
-	public tasks?: TaskModel[]
-	public steps?: Required<Step>[]
+	public members_id: string[]
+	public favorite: boolean
+	public description: string
+	public tasks: TaskModel[]
+	public steps: Required<Step>[]
 
 	static createStep(data: CreateStepDTO): Required<Step> {
 		return {
@@ -54,5 +49,30 @@ export class WorkspaceModel extends Model {
 				index: 3,
 			}),
 		]
+	}
+
+	addMember(member_id: string) {
+		this.members_id.push(member_id)
+	}
+
+	deleteMember(member_id: string) {
+		const member_index = this.members_id.findIndex(
+			(member) => member === member_id
+		)
+
+		if (member_index !== -1) {
+			this.members_id.splice(member_index, 1)
+		}
+	}
+
+	toObj(): CreateWorkspaceDTO {
+		const object = {
+			...this,
+		}
+
+		delete object.addMember
+		delete object.deleteMember
+
+		return object
 	}
 }

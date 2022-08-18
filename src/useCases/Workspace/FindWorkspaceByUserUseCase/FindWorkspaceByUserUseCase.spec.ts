@@ -1,9 +1,11 @@
+import { WorkspaceModel } from '../../../models/WorkspaceModel/WorkspaceModel'
 import {
 	UserRepository,
 	WorkspaceRepository,
 } from '../../../repositories/repositories'
 
 import { CreateUserUseCase } from '../../User/CreateUserUseCase/CreateUserUseCase'
+import { CreateWorkspaceByUserUseCase } from '../CreateWorkspaceByUserUseCase/CreateWorkspaceByUserUseCase'
 import { FindWorkspaceByUserUseCase } from './FindWorkspaceByUserUseCase'
 
 describe('Find Workspaces by User', () => {
@@ -11,6 +13,9 @@ describe('Find Workspaces by User', () => {
 	const workspaceRepository = new WorkspaceRepository(userRepository)
 
 	const createUserUseCase = new CreateUserUseCase(userRepository)
+	const createWorkspaceUseCase = new CreateWorkspaceByUserUseCase(
+		workspaceRepository
+	)
 	const findWorkspaceByUserUseCase = new FindWorkspaceByUserUseCase(
 		workspaceRepository
 	)
@@ -26,8 +31,17 @@ describe('Find Workspaces by User', () => {
 			email: 'a@g.com',
 		})
 
+		await createWorkspaceUseCase.execute(
+			{
+				title: 'Pessoal',
+				description: 'Workspace para meu dia-a-dia',
+			},
+			user_id
+		)
+
 		const workspaces = await findWorkspaceByUserUseCase.execute(user_id)
 
-		expect(workspaces).toHaveLength(0)
+		expect(workspaces).toHaveLength(1)
+		expect(workspaces[0]).toBeInstanceOf(WorkspaceModel)
 	})
 })

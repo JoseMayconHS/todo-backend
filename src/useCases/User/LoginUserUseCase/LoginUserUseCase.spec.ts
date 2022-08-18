@@ -1,5 +1,6 @@
 import { UserRepository } from '../../../repositories/repositories'
 import { CreateUserUseCase } from '../CreateUserUseCase/CreateUserUseCase'
+import { DeleteUserUseCase } from './../DeleteUserUseCase/DeleteUserUseCase'
 import { LoginUserUseCase } from './LoginUserUseCase'
 
 describe('Login User', () => {
@@ -7,6 +8,15 @@ describe('Login User', () => {
 
 	const loginUserUseCase = new LoginUserUseCase(userRepository)
 	const createUserUseCase = new CreateUserUseCase(userRepository)
+	const deleteUserUseCase = new DeleteUserUseCase(userRepository)
+
+	let user_id
+
+	afterEach(async () => {
+		try {
+			await deleteUserUseCase.execute(user_id)
+		} catch (e) {}
+	})
 
 	it('should not be able login without data to update', async () => {
 		await expect(loginUserUseCase.execute()).rejects.toThrow()
@@ -39,7 +49,7 @@ describe('Login User', () => {
 	})
 
 	it('should not be able find user with wrong email', async () => {
-		await createUserUseCase.execute({
+		user_id = await createUserUseCase.execute({
 			name: 'Maycon Silva',
 			password: '123456',
 			email: 'a@g.com',
@@ -54,7 +64,7 @@ describe('Login User', () => {
 	})
 
 	it('should not be able find user with wrong password', async () => {
-		await createUserUseCase.execute({
+		user_id = await createUserUseCase.execute({
 			name: 'Maycon Silva',
 			password: '123456',
 			email: 'a@g.com',

@@ -1,3 +1,4 @@
+import { WorkspaceModel } from '../../../models/WorkspaceModel/WorkspaceModel'
 import {
 	UserRepository,
 	WorkspaceRepository,
@@ -54,5 +55,6 @@ describe('Create Workspace', () => {
 		const workspaces = await findWorkspaceByUserUseCase.execute(user_id)
 
 		expect(workspaces).toHaveLength(1)
+		expect(workspaces[0]).toBeInstanceOf(WorkspaceModel)
 	})
 })
