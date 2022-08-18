@@ -24,6 +24,8 @@ export interface UserPayload
 		| 'token'
 		| 'encrypt'
 		| 'setPassword'
+		| 'setName'
+		| 'setEmail'
 		| 'comparePassword'
 		| 'getWorkspace'
 		| 'addWorkspace'
@@ -32,6 +34,8 @@ export interface UserPayload
 		| 'addTask'
 		| 'updateTask'
 		| 'deleteTask'
+		| 'addMemberToTask'
+		| 'deleteMemberInTask'
 		| 'addStepToWorkspace'
 		| 'updateStepInWorkspace'
 		| 'deleteStepInWorkspace'
@@ -153,9 +157,11 @@ export class UserModel extends Model {
 		)
 
 		if (index !== -1) {
+			const workspace = this.getWorkspace(workspace_id)
+
 			const workspace_updated = new WorkspaceModel(
 				{
-					...this.workspaces[index].toObj(),
+					...workspace.toObj(),
 					...data,
 				},
 				workspace_id
@@ -176,17 +182,13 @@ export class UserModel extends Model {
 	}
 
 	addTask(workspace_id: string, data: CreateTaskDTO): Required<TaskModel> {
-		const workspace_index = this.workspaces.findIndex(
-			(workspace) => workspace._id === workspace_id
-		)
+		const workspace = this.getWorkspace(workspace_id)
 
-		if (workspace_index !== -1) {
-			const task = new TaskModel(data) as Required<TaskModel>
+		const task = workspace.addTask(data)
 
-			this.workspaces[workspace_index].tasks.push(task)
+		this.updateWorkspace(workspace_id, workspace)
 
-			return task
-		}
+		return task
 	}
 
 	updateTask(
@@ -194,60 +196,32 @@ export class UserModel extends Model {
 		workspace_id: string,
 		data: Partial<CreateTaskDTO>
 	) {
-		const workspace_index = this.workspaces.findIndex(
-			(workspace) => workspace._id === workspace_id
-		)
+		const workspace = this.getWorkspace(workspace_id)
 
-		if (workspace_index !== -1) {
-			const workspace = this.workspaces[workspace_index]
+		workspace.updateTask(task_id, data)
 
-			const task_index = workspace.tasks.findIndex(
-				(task) => task._id === task_id
-			)
-
-			const task_updated = new TaskModel(
-				{
-					...workspace.tasks[task_index].toObj(),
-					...data,
-				},
-				task_id
-			)
-
-			this.workspaces[workspace_index].tasks.splice(task_index, 1, task_updated)
-		}
+		this.updateWorkspace(workspace_id, workspace)
 	}
 
 	deleteTask(task_id: string, workspace_id: string) {
-		const workspace_index = this.workspaces.findIndex(
-			(workspace) => workspace._id === workspace_id
-		)
+		const workspace = this.getWorkspace(workspace_id)
 
-		if (workspace_index !== -1) {
-			const workspace = this.workspaces[workspace_index]
+		workspace.deleteTask(task_id)
 
-			const task_index = workspace.tasks.findIndex(
-				(task) => task._id === task_id
-			)
-
-			this.workspaces[workspace_index].tasks.splice(task_index, 1)
-		}
+		this.updateWorkspace(workspace_id, workspace)
 	}
 
 	addStepToWorkspace(
 		workspace_id: string,
 		data: CreateStepDTO
 	): Required<Step> {
-		const index = this.workspaces.findIndex(
-			(workspace) => workspace._id === workspace_id
-		)
+		const workspace = this.getWorkspace(workspace_id)
 
-		if (index !== -1) {
-			const step = WorkspaceModel.createStep(data)
+		const step = workspace.addStep(data)
 
-			this.workspaces[index].steps.push(step)
+		this.updateWorkspace(workspace_id, workspace)
 
-			return step
-		}
+		return step
 	}
 
 	updateStepInWorkspace(
@@ -255,47 +229,19 @@ export class UserModel extends Model {
 		workspace_id: string,
 		data: Partial<CreateStepDTO>
 	) {
-		const workspace_index = this.workspaces.findIndex(
-			(workspace) => workspace._id === workspace_id
-		)
+		const workspace = this.getWorkspace(workspace_id)
 
-		if (workspace_index !== -1) {
-			const step_index = this.workspaces[workspace_index].steps.findIndex(
-				(step) => step._id === step_id
-			)
+		workspace.updateStep(step_id, data)
 
-			if (step_index !== -1) {
-				const step = this.workspaces[workspace_index].steps[step_index]
-
-				const step_updated = {
-					...step,
-					...data,
-					_id: step_id,
-				}
-
-				this.workspaces[workspace_index].steps.splice(
-					step_index,
-					1,
-					step_updated
-				)
-			}
-		}
+		this.updateWorkspace(workspace_id, workspace)
 	}
 
 	deleteStepInWorkspace(step_id: string, workspace_id: string) {
-		const workspace_index = this.workspaces.findIndex(
-			(workspace) => workspace._id === workspace_id
-		)
+		const workspace = this.getWorkspace(workspace_id)
 
-		if (workspace_index !== -1) {
-			const step_index = this.workspaces[workspace_index].steps.findIndex(
-				(step) => step._id === step_id
-			)
+		workspace.deleteStep(step_id)
 
-			if (step_index !== -1) {
-				this.workspaces[workspace_index].steps.splice(step_index, 1)
-			}
-		}
+		this.updateWorkspace(workspace_id, workspace)
 	}
 
 	addMemberToWorkspace(
@@ -311,20 +257,42 @@ export class UserModel extends Model {
 		})
 	}
 
-	deleteMemberInWorkspace(step_id: string, workspace_id: string) {
-		const workspace_index = this.workspaces.findIndex(
-			(workspace) => workspace._id === workspace_id
-		)
+	deleteMemberInWorkspace(workspace_id: string, member_id: string) {
+		const workspace = this.getWorkspace(workspace_id)
 
-		if (workspace_index !== -1) {
-			const step_index = this.workspaces[workspace_index].steps.findIndex(
-				(step) => step._id === step_id
-			)
+		workspace.deleteMember(member_id)
 
-			if (step_index !== -1) {
-				this.workspaces[workspace_index].steps.splice(step_index, 1)
-			}
-		}
+		this.updateWorkspace(workspace_id, {
+			members_id: workspace.members_id,
+		})
+	}
+
+	addMemberToTask(
+		task_id: string,
+		workspace_id: string,
+		member_id: string
+	): Required<void> {
+		const workspace = this.getWorkspace(workspace_id)
+
+		const task = workspace.getTask(task_id)
+
+		task.addMember(member_id)
+
+		this.updateTask(task_id, workspace_id, {
+			members_id: task.members_id,
+		})
+	}
+
+	deleteMemberInTask(task_id: string, workspace_id: string, member_id: string) {
+		const workspace = this.getWorkspace(workspace_id)
+
+		const task = workspace.getTask(task_id)
+
+		task.deleteMember(member_id)
+
+		this.updateTask(task_id, workspace_id, {
+			members_id: task.members_id,
+		})
 	}
 
 	toObj(): UserObj {
@@ -362,6 +330,9 @@ export class UserModel extends Model {
 
 		delete payload.addMemberToWorkspace
 		delete payload.deleteMemberInWorkspace
+
+		delete payload.addMemberToTask
+		delete payload.deleteMemberInTask
 
 		return payload
 	}

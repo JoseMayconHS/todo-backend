@@ -1,11 +1,9 @@
 import { CreateTaskUseCase } from '../CreateTaskUseCase/CreateTaskUseCase'
 
 import { TaskModel } from '../../../models/TaskModel/TaskModel'
-import {
-	TaskRepository,
-	UserRepository,
-	WorkspaceRepository,
-} from '../../../repositories/repositories'
+import { UserRepository } from '../../../repositories/repositories'
+import { TaskRepository } from '../../../repositories/userRepository/class/Task'
+import { WorkspaceRepository } from '../../../repositories/userRepository/class/Workspace'
 import { CreateUserUseCase } from '../../User/CreateUserUseCase/CreateUserUseCase'
 import { CreateWorkspaceByUserUseCase } from '../../Workspace/CreateWorkspaceByUserUseCase/CreateWorkspaceByUserUseCase'
 import { FindTaskByWorkspaceUseCase } from './FindTaskByWorkspaceUseCase'
@@ -13,7 +11,7 @@ import { FindTaskByWorkspaceUseCase } from './FindTaskByWorkspaceUseCase'
 describe('Find Tasks by workspace', () => {
 	const userRepository = new UserRepository()
 	const workspaceRepository = new WorkspaceRepository(userRepository)
-	const taskRepository = new TaskRepository(workspaceRepository)
+	const taskRepository = new TaskRepository(userRepository)
 
 	const findTaskByWorkspaceUseCase = new FindTaskByWorkspaceUseCase(
 		taskRepository

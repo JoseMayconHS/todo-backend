@@ -1,8 +1,6 @@
-import {
-	TaskRepository,
-	UserRepository,
-	WorkspaceRepository,
-} from '../../../repositories/repositories'
+import { UserRepository } from '../../../repositories/repositories'
+import { TaskRepository } from '../../../repositories/userRepository/class/Task'
+import { WorkspaceRepository } from '../../../repositories/userRepository/class/Workspace'
 import { CreateUserUseCase } from '../../User/CreateUserUseCase/CreateUserUseCase'
 import { CreateWorkspaceByUserUseCase } from '../../Workspace/CreateWorkspaceByUserUseCase/CreateWorkspaceByUserUseCase'
 import { FindWorkspaceByIDUseCase } from '../../Workspace/FindWorkspaceByIDUseCase/FindWorkspaceByIDUseCase'
@@ -12,7 +10,7 @@ import { DeleteTaskUseCase } from './DeleteTaskUseCase'
 describe('Delete Task', () => {
 	const userRepository = new UserRepository()
 	const workspaceRepository = new WorkspaceRepository(userRepository)
-	const taskRepository = new TaskRepository(workspaceRepository)
+	const taskRepository = new TaskRepository(userRepository)
 
 	const createTaskUseCase = new CreateTaskUseCase(taskRepository)
 	const createUserUseCase = new CreateUserUseCase(userRepository)

@@ -2,7 +2,7 @@ import { UserRepositoryContract } from '../UserRepository'
 
 import { WorkspaceMemberRepositoryContract } from '../WorkspaceMemberRepository'
 
-export class MockWorkspaceMemberRepository
+export class WorkspaceMemberRepository
 	implements WorkspaceMemberRepositoryContract
 {
 	constructor(private UserRepository: UserRepositoryContract) {}
@@ -12,10 +12,14 @@ export class MockWorkspaceMemberRepository
 		workspace_id: string,
 		user_id: string
 	): Promise<void> {
-		if (await this.UserRepository.userExists(member_id)) {
-			const user = await this.UserRepository.userGetByID(user_id)
+		const user = await this.UserRepository.userGetByID(user_id)
 
+		if (user) {
 			user.addMemberToWorkspace(workspace_id, member_id)
+
+			await this.UserRepository.userUpdate(user_id, {
+				workspaces: user.workspaces,
+			})
 		}
 	}
 
@@ -26,12 +30,12 @@ export class MockWorkspaceMemberRepository
 	): Promise<void> {
 		const user = await this.UserRepository.userGetByID(user_id)
 
-		const workspace = user.getWorkspace(workspace_id)
+		if (user) {
+			user.deleteMemberInWorkspace(workspace_id, member_id)
 
-		workspace.deleteMember(member_id)
-
-		user.updateWorkspace(workspace_id, {
-			members_id: workspace.members_id,
-		})
+			await this.UserRepository.userUpdate(user_id, {
+				workspaces: user.workspaces,
+			})
+		}
 	}
 }

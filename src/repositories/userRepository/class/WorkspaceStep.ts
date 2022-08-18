@@ -5,7 +5,7 @@ import {
 	WorkspaceStepRepositoryContract,
 } from '../WorkspaceStepRepository'
 
-export class MockWorkspaceStepRepository
+export class WorkspaceStepRepository
 	implements WorkspaceStepRepositoryContract
 {
 	constructor(private UserRepository: UserRepositoryContract) {}
@@ -19,6 +19,10 @@ export class MockWorkspaceStepRepository
 
 		const step = user.addStepToWorkspace(workspace_id, data)
 
+		await this.UserRepository.userUpdate(user_id, {
+			workspaces: user.workspaces,
+		})
+
 		return step._id
 	}
 
@@ -31,6 +35,10 @@ export class MockWorkspaceStepRepository
 		const user = await this.UserRepository.userGetByID(user_id)
 
 		user.updateStepInWorkspace(step_id, workspace_id, data)
+
+		await this.UserRepository.userUpdate(user_id, {
+			workspaces: user.workspaces,
+		})
 	}
 	async workspaceStepDelete(
 		step_id: string,
@@ -40,5 +48,9 @@ export class MockWorkspaceStepRepository
 		const user = await this.UserRepository.userGetByID(user_id)
 
 		user.deleteStepInWorkspace(step_id, workspace_id)
+
+		await this.UserRepository.userUpdate(user_id, {
+			workspaces: user.workspaces,
+		})
 	}
 }

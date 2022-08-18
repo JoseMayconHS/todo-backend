@@ -1,11 +1,9 @@
-import { WorkspaceStepRepository } from '../../../repositories/repositories'
 import { CreateStepDTO } from './../../../models/WorkspaceModel/WorkspaceModel'
 import { CreateWorkspaceStepUseCase } from './CreateWorkspaceStepUseCase'
 
-import {
-	UserRepository,
-	WorkspaceRepository,
-} from '../../../repositories/repositories'
+import { UserRepository } from '../../../repositories/repositories'
+import { WorkspaceRepository } from '../../../repositories/userRepository/class/Workspace'
+import { WorkspaceStepRepository } from '../../../repositories/userRepository/class/WorkspaceStep'
 import { CreateUserUseCase } from '../../User/CreateUserUseCase/CreateUserUseCase'
 import { CreateWorkspaceByUserUseCase } from '../../Workspace/CreateWorkspaceByUserUseCase/CreateWorkspaceByUserUseCase'
 import { FindWorkspaceByIDUseCase } from '../../Workspace/FindWorkspaceByIDUseCase/FindWorkspaceByIDUseCase'

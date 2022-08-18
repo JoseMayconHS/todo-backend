@@ -60,10 +60,6 @@ export class MockUserRepository implements UserRepositoryContract {
 		return user
 	}
 
-	async userExists(user_id: string): Promise<boolean> {
-		return this.users.some((user) => user._id === user_id)
-	}
-
 	async userGetByEmail(
 		email: string
 	): Promise<Required<UserModel> | undefined> {

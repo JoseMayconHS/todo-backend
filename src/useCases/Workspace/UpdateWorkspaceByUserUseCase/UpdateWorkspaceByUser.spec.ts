@@ -1,7 +1,5 @@
-import {
-	UserRepository,
-	WorkspaceRepository,
-} from '../../../repositories/repositories'
+import { UserRepository } from '../../../repositories/repositories'
+import { WorkspaceRepository } from '../../../repositories/userRepository/class/Workspace'
 import { CreateUserUseCase } from '../../User/CreateUserUseCase/CreateUserUseCase'
 import { CreateWorkspaceByUserUseCase } from '../CreateWorkspaceByUserUseCase/CreateWorkspaceByUserUseCase'
 import { FindWorkspaceByUserUseCase } from '../FindWorkspaceByUserUseCase/FindWorkspaceByUserUseCase'

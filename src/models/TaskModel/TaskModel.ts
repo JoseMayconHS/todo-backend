@@ -10,6 +10,16 @@ export type Checklist = {
 	done: boolean
 }
 
+export type TaskPayload = Omit<
+	TaskModel,
+	| 'addChecklist'
+	| 'updateChecklist'
+	| 'deleteChecklist'
+	| 'addMember'
+	| 'deleteMember'
+	| 'toObj'
+>
+
 export class TaskModel extends Model {
 	public step_id: string
 	public title: string
