@@ -50,4 +50,22 @@ describe('Update Task', () => {
 
 		expect(new_user.password).toBe(old_password)
 	})
+
+	it('should be able encrypt password if update password field', async () => {
+		const user_id = await createUserUseCase.execute({
+			name: 'Maycon Silva',
+			password: '123456',
+			email: 'a@g.com',
+		})
+
+		const user = await findUserByIDUseCase.execute(user_id)
+
+		const old_password = user.password
+
+		await updateUserUseCase.execute(user_id, { password: '654321' })
+
+		const new_user = await findUserByIDUseCase.execute(user_id)
+
+		expect(new_user.password).not.toBe(old_password)
+	})
 })

@@ -79,6 +79,8 @@ export class MockUserRepository implements UserRepositoryContract {
 				user_id
 			) as Required<UserModel>
 
+			data.password && newUser.encrypt()
+
 			this.users.splice(index, 1, newUser)
 		}
 	}

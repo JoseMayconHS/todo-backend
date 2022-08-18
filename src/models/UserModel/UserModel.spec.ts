@@ -18,6 +18,22 @@ describe('UserModel', () => {
 		expect(user.password).toBe(hash_password)
 	})
 
+	it('should not be able create user wth wrong email', () => {
+		let errorMessage = ''
+
+		try {
+			new UserModel({
+				name: 'Maycon Silva',
+				email: '@g.com',
+				password: '123456',
+			})
+		} catch (e) {
+			errorMessage = e.message
+		}
+
+		expect(errorMessage).toBe('E-mail mal formatado')
+	})
+
 	it('should be able create ID', () => {
 		const user = new UserModel({
 			name: 'Maycon Silva',
@@ -28,18 +44,20 @@ describe('UserModel', () => {
 		expect(user).toHaveProperty('_id')
 	})
 
-	// it('should not be able instantiate a User with wrong password', () => {
-	// 	const password = '12345'
+	// it('should not be able create a User with wrong password', () => {
+	// 	let errorMessage = ''
 
 	// 	try {
-	// 		const user = new UserModel({
+	// 		new UserModel({
 	// 			name: 'Maycon Silva',
 	// 			email: 'a@g.com',
-	// 			password,
+	// 			password: '12345',
 	// 		})
 	// 	} catch (e) {
-	// 		expect(e.message).toBe('Senha muito curta')
+	// 		errorMessage = e.message
 	// 	}
+
+	// 	expect(errorMessage).toBe('Senha inválida')
 	// })
 
 	it('should be able encrypt password', () => {

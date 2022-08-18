@@ -1,6 +1,5 @@
 import { UserRepository } from '../../../repositories/repositories'
 import { CreateUserUseCase } from '../CreateUserUseCase/CreateUserUseCase'
-import { FindUserByIDUseCase } from '../FindUserByIDUseCase/FindUserByIDUseCase'
 import { LoginUserUseCase } from '../LoginUserUseCase/LoginUserUseCase'
 import { ReconnectUserUseCase } from './ReconnectUserUseCase'
 
@@ -10,7 +9,6 @@ describe('Login User', () => {
 	const reconnectUserUseCase = new ReconnectUserUseCase(userRepository)
 	const createUserUseCase = new CreateUserUseCase(userRepository)
 	const loginUserUseCase = new LoginUserUseCase(userRepository)
-	const findUserByIDUseCase = new FindUserByIDUseCase(userRepository)
 
 	it('should not be able reconnect without bearer_token', async () => {
 		await expect(reconnectUserUseCase.execute()).rejects.toThrow()

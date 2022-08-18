@@ -55,13 +55,41 @@ export class UserModel extends Model {
 		}
 	}
 
+	static validateEmail(email: string) {
+		if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+			throw new Error('E-mail mal formatado')
+		}
+
+		return true
+	}
+
+	static validateName(name: string) {
+		if (!name.length) {
+			throw new Error('Nome inválido')
+		}
+
+		return true
+	}
+
 	constructor(props: CreateUserDTO, _id?: string) {
 		super({ ...props, _id } as Model)
 
-		this.name = props.name
-		this.email = props.email
 		this.workspaces = props.workspaces ?? []
+		this.setName(props.name)
+		this.setEmail(props.email)
 		this.setPassword(props.password, !!_id)
+	}
+
+	setName(name: string) {
+		if (UserModel.validateName(name)) {
+			this.name = name
+		}
+	}
+
+	setEmail(email: string) {
+		if (UserModel.validateEmail(email)) {
+			this.email = email
+		}
 	}
 
 	async setPassword(password: string, noEncrypt?: boolean) {
@@ -88,7 +116,7 @@ export class UserModel extends Model {
 		return `Bearer ${token}`
 	}
 
-	encrypt(password: string) {
+	encrypt(password = this.password) {
 		const salt = bcryptjs.genSaltSync()
 
 		const hash = bcryptjs.hashSync(password, salt)

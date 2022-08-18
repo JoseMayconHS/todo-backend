@@ -19,9 +19,7 @@ export class LoginUserUseCase {
 			throw new Error('Nenhuma informação para login')
 		}
 
-		if (!data.email.length) {
-			throw new Error('E-mail inválido')
-		}
+		UserModel.validateEmail(data.email)
 
 		UserModel.validatePassword(data.password)
 
