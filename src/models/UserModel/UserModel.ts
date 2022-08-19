@@ -51,7 +51,7 @@ export class UserModel extends Model {
 	public email: string
 	public password: string
 
-	public workspaces: WorkspaceModel[]
+	public workspaces?: WorkspaceModel[]
 
 	static validatePassword(password: string) {
 		if (!password.length) {
@@ -110,7 +110,9 @@ export class UserModel extends Model {
 	token() {
 		const token = jsonwebtoken.sign(
 			{
-				...this.payload(),
+				_id: this._id,
+				email: this.email,
+				password: this.password,
 				token_id: v1(),
 			},
 			process.env.JWT_SECRET,

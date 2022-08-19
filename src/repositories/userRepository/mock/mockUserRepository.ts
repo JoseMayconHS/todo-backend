@@ -8,7 +8,7 @@ import { validateToken } from '@utils/validateToken'
 import { CreateUserDTO, UserRepositoryContract } from '../UserRepository'
 
 export class MockUserRepository implements UserRepositoryContract {
-	private users: Required<UserModel>[] = []
+	public users: Required<UserModel>[] = []
 
 	async userLogin(
 		data: LoginUser,
@@ -22,7 +22,10 @@ export class MockUserRepository implements UserRepositoryContract {
 			throw new Error('Não existe usuário com este e-mail')
 		}
 
-		if (!reconnect && !user.comparePassword(password)) {
+		if (
+			(!reconnect && !user.comparePassword(password)) ||
+			(reconnect && password !== user.password)
+		) {
 			throw new Error('Senha incorreta')
 		}
 
@@ -35,9 +38,9 @@ export class MockUserRepository implements UserRepositoryContract {
 	async userReconnect(bearer_token: string): Promise<LoginUserResponse> {
 		const decoded = validateToken(bearer_token)
 
-		const { email } = decoded
+		const { email, password } = decoded
 
-		const payload = await this.userLogin({ email }, true)
+		const payload = await this.userLogin({ email, password }, true)
 
 		return payload
 	}

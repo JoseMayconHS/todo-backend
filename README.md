@@ -32,6 +32,7 @@ Projeto de gerenciamento de tarefas
   type Task {
     _id: string
     step_id: string<Step._id>
+    priority: 1 | 2 | 3
     members_id: string<User._id>[]
     title: string
     description: string
@@ -58,6 +59,12 @@ Para rodar os testes, rode o seguinte comando
 
 Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de ambiente no seu .env
 
+`PORT`
+
 `NODE_ENV`
 
 `JWT_SECRET`
+
+`MONGO_URL`
+
+`MONGO_DBNAME`

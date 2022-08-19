@@ -31,8 +31,11 @@
     "-": "^0.0.1",
     "@types/jsonwebtoken": "^8.5.8",
     "D": "^1.0.0",
+    "apollo-server": "^3.10.1",
     "bcryptjs": "^2.4.3",
+    "graphql": "^16.6.0",
     "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.9.0",
     "uuid": "^8.3.2"
   }
 }

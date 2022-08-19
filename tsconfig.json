@@ -7,7 +7,8 @@
 			"@repositories/*": ["src/repositories/*"],
 			"@models/*": ["src/models/*"],
 			"@useCases/*": ["src/useCases/*"],
-			"@utils/*": ["src/utils/*"]
+			"@utils/*": ["src/utils/*"],
+			"@services/*": ["src/services/*"]
 		},
 		"resolveJsonModule": true,
 		"outDir": "./dist",
