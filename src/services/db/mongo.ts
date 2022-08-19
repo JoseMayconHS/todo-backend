@@ -1,4 +1,4 @@
-import { Collection, MongoClient } from 'mongodb'
+import { Collection, Document, MongoClient } from 'mongodb'
 
 export type MongoDB = {
 	user: Collection<Document>

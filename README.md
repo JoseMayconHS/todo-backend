@@ -2,10 +2,11 @@
 
 Projeto de gerenciamento de tarefas
 
-## Modelos
+## Estrutura de dados
 
 ```typescript
-  type User {
+  // Objeto de entrada
+  type User = {
     _id: string
     name: string
     email: string
@@ -13,7 +14,7 @@ Projeto de gerenciamento de tarefas
     workspaces: Workspace[]
   }
 
-  type Workspace {
+  type Workspace = {
     _id: string
     title: string
     members_id: string<User._id>[]
@@ -23,13 +24,13 @@ Projeto de gerenciamento de tarefas
     steps: Step[]
   }
 
-  type Step {
+  type Step = {
     _id: string
     label: string
     index: number
   }
 
-  type Task {
+  type Task = {
     _id: string
     step_id: string<Step._id>
     priority: 1 | 2 | 3
@@ -40,12 +41,34 @@ Projeto de gerenciamento de tarefas
     checklist: Checklist[]
   }
 
-  type Checklist {
+  type Checklist = {
     _id: string
     description: string
     done: boolean
   }
 ```
+
+## Mutation
+
+- Cadastro de usuário
+
+  ```graphql
+  input RegisterInput {
+  	email: String!
+  	name: String!
+  	password: String!
+  }
+
+  type RegisterOutput {
+  	ok: Boolean!
+  	_id: ID
+  	message: String
+  }
+
+  type Mutation {
+  	register(data: RegisterInput): RegisterOutput
+  }
+  ```
 
 ## Rodando os testes
 

@@ -1,4 +1,5 @@
 import { UserModel } from '@models/UserModel/UserModel'
+import { MongoDB } from '@services/db/mongo'
 import {
 	LoginUser,
 	LoginUserResponse,
@@ -7,8 +8,10 @@ import { validateToken } from '@utils/validateToken'
 
 import { CreateUserDTO, UserRepositoryContract } from '../UserRepository'
 
-export class MockUserRepository implements UserRepositoryContract {
-	private users: Required<UserModel>[] = []
+export class MongoUserRepository implements UserRepositoryContract {
+	public users: Required<UserModel>[] = []
+
+	constructor(private db: MongoDB) {}
 
 	async userLogin(
 		data: LoginUser,
@@ -46,12 +49,25 @@ export class MockUserRepository implements UserRepositoryContract {
 	}
 
 	async userCreate(data: CreateUserDTO): Promise<string> {
-		if (!this.users.some((user) => user.email === data.email)) {
+		const userAlreadyExist = await this.db.user.findOne(
+			{
+				email: data.email,
+			},
+			{
+				projection: {
+					_id: 1,
+				},
+			}
+		)
+
+		if (!userAlreadyExist) {
 			const User = new UserModel(data as UserModel) as Required<UserModel>
 
-			this.users.push(User)
+			// @ts-ignore
+			const _id = await this.db.user.insertOne(User.payload())
 
-			return User._id
+			// @ts-ignore
+			return String(_id.insertedId)
 		} else {
 			throw new Error('E-mail já cadastrado')
 		}

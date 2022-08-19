@@ -1,7 +1,6 @@
 import { MockUserRepository } from './userRepository/mock/mockUserRepository'
+import { MongoUserRepository } from './userRepository/mongo/mongoUserRepository'
 
-const production = process.env.NODE_ENV === 'production'
+const test = process.env.NODE_ENV === 'test'
 
-export const UserRepository = production
-	? MockUserRepository
-	: MockUserRepository
+export const UserRepository = test ? MockUserRepository : MongoUserRepository
