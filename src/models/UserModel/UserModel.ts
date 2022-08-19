@@ -1,4 +1,3 @@
-import { CreateTaskChecklistDTO } from '@repositories/userRepository/TaskChecklistRepository'
 import bcryptjs from 'bcryptjs'
 import jsonwebtoken from 'jsonwebtoken'
 import { v1 } from 'uuid'
@@ -9,6 +8,7 @@ import {
 	Step,
 	WorkspaceModel,
 } from '@models/WorkspaceModel/WorkspaceModel'
+import { CreateTaskChecklistDTO } from '@repositories/userRepository/TaskChecklistRepository'
 import { CreateTaskDTO } from '@repositories/userRepository/TaskRepository'
 import { CreateUserDTO } from '@repositories/userRepository/UserRepository'
 import { CreateWorkspaceDTO } from '@repositories/userRepository/WorkspaceRepository'
@@ -32,6 +32,9 @@ export interface UserPayload
 		| 'deleteTask'
 		| 'addMemberToTask'
 		| 'deleteMemberInTask'
+		| 'addChecklistItemInTask'
+		| 'updateChecklistItemInTask'
+		| 'deleteChecklistItemInTask'
 		| 'addStepToWorkspace'
 		| 'updateStepInWorkspace'
 		| 'deleteStepInWorkspace'
@@ -354,32 +357,6 @@ export class UserModel extends Model {
 		const payload = {
 			...this,
 		}
-
-		delete payload.token
-		delete payload.comparePassword
-		delete payload.setPassword
-		delete payload.encrypt
-		delete payload.payload
-		delete payload.toObj
-
-		delete payload.getWorkspace
-		delete payload.addWorkspace
-		delete payload.deleteWorkspace
-		delete payload.updateWorkspace
-
-		delete payload.addTask
-		delete payload.updateTask
-		delete payload.deleteTask
-
-		delete payload.addStepToWorkspace
-		delete payload.updateStepInWorkspace
-		delete payload.deleteStepInWorkspace
-
-		delete payload.addMemberToWorkspace
-		delete payload.deleteMemberInWorkspace
-
-		delete payload.addMemberToTask
-		delete payload.deleteMemberInTask
 
 		return payload
 	}

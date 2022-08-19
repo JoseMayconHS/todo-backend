@@ -27,6 +27,7 @@ export class TaskModel extends Model {
 	public description: string
 	public doneAt: Date | undefined
 	public checklist: Checklist[]
+	public priority: 1 | 2 | 3
 
 	static createChecklist(data: CreateTaskChecklistDTO): Required<Checklist> {
 		return {
@@ -39,9 +40,11 @@ export class TaskModel extends Model {
 		super({ ...props, _id } as Model)
 
 		this.title = props.title
-		this.description = props.description ?? ''
 		this.doneAt = props.doneAt
 		this.step_id = props.step_id
+
+		this.description = props.description ?? ''
+		this.priority = props.priority ?? 1
 
 		this.checklist = props.checklist ?? []
 		this.members_id = props.members_id ?? []
@@ -104,6 +107,10 @@ export class TaskModel extends Model {
 
 		delete object.addMember
 		delete object.deleteMember
+
+		delete object.addChecklist
+		delete object.updateChecklist
+		delete object.deleteChecklist
 
 		return object
 	}

@@ -1,7 +1,8 @@
+import { v4 } from 'uuid'
+
 import { TaskModel, TaskPayload } from '@models/TaskModel/TaskModel'
 import { CreateTaskDTO } from '@repositories/userRepository/TaskRepository'
 import { CreateWorkspaceDTO } from '@repositories/userRepository/WorkspaceRepository'
-import { v4 } from 'uuid'
 import { Model } from '..'
 
 export type Step = {
@@ -156,10 +157,10 @@ export class WorkspaceModel extends Model {
 		delete object.updateStep
 		delete object.deleteStep
 
+		delete object.getTask
 		delete object.addTask
 		delete object.updateTask
 		delete object.deleteTask
-		delete object.getTask
 
 		return object
 	}

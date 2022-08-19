@@ -311,25 +311,7 @@ describe('UserModel', () => {
 
 		const user_obj = user.toObj()
 
-		expect(user_obj).not.toHaveProperty('token')
-		expect(user_obj).not.toHaveProperty('setPassword')
-
-		expect(user_obj).not.toHaveProperty('addWorkspace')
-		expect(user_obj).not.toHaveProperty('updateWorkspace')
-		expect(user_obj).not.toHaveProperty('deleteWorkspace')
-
-		expect(user_obj).not.toHaveProperty('addTask')
-		expect(user_obj).not.toHaveProperty('updateTask')
-		expect(user_obj).not.toHaveProperty('deleteTask')
-
-		expect(user_obj).not.toHaveProperty('addStepToWorkspace')
-		expect(user_obj).not.toHaveProperty('updateStepInWorkspace')
-		expect(user_obj).not.toHaveProperty('deleteStepInWorkspace')
-
-		expect(user_obj).not.toHaveProperty('encrypt')
-		expect(user_obj).not.toHaveProperty('payload')
-		expect(user_obj).not.toHaveProperty('comparePassword')
-		expect(user_obj).not.toHaveProperty('toObj')
+		expect(user_obj).not.toHaveProperty('password')
 	})
 
 	it('should ble able get User as object without functions but with password', () => {
@@ -341,25 +323,6 @@ describe('UserModel', () => {
 
 		const user_payload = user.payload()
 
-		expect(user_payload).not.toHaveProperty('token')
-		expect(user_payload).not.toHaveProperty('setPassword')
-
-		expect(user_payload).not.toHaveProperty('addWorkspace')
-		expect(user_payload).not.toHaveProperty('updateWorkspace')
-		expect(user_payload).not.toHaveProperty('deleteWorkspace')
-
-		expect(user_payload).not.toHaveProperty('addTask')
-		expect(user_payload).not.toHaveProperty('updateTask')
-		expect(user_payload).not.toHaveProperty('deleteTask')
-
-		expect(user_payload).not.toHaveProperty('addStepToWorkspace')
-		expect(user_payload).not.toHaveProperty('updateStepInWorkspace')
-		expect(user_payload).not.toHaveProperty('deleteStepInWorkspace')
-
-		expect(user_payload).not.toHaveProperty('encrypt')
-		expect(user_payload).not.toHaveProperty('payload')
-		expect(user_payload).not.toHaveProperty('comparePassword')
-		expect(user_payload).not.toHaveProperty('toObj')
-		expect(user_payload).toHaveProperty('password')
+		expect(user_payload.password).toBeDefined()
 	})
 })
