@@ -25,6 +25,10 @@ export class MongoUserRepository implements UserRepositoryContract {
 			throw new Error('Não existe usuário com este e-mail')
 		}
 
+		if (user.errorMessage) {
+			throw new Error(user.errorMessage)
+		}
+
 		if (
 			(!reconnect && !user.comparePassword(password)) ||
 			(reconnect && password !== user.password)
@@ -63,6 +67,10 @@ export class MongoUserRepository implements UserRepositoryContract {
 		if (!userAlreadyExist) {
 			const User = new UserModel(data as UserModel) as Required<UserModel>
 
+			if (User.errorMessage) {
+				throw new Error(User.errorMessage)
+			}
+
 			// @ts-ignore
 			const _id = await this.db.user.insertOne(User.payload())
 
@@ -74,17 +82,23 @@ export class MongoUserRepository implements UserRepositoryContract {
 	}
 
 	async userGetByID(user_id: string): Promise<Required<UserModel> | undefined> {
-		const user = this.users.find((user) => user._id === user_id)
+		const user = await this.db.user.findOne({
+			_id: user_id,
+		})
 
-		return user
+		// @ts-ignore
+		return user ? new UserModel(user, user_id) : undefined
 	}
 
 	async userGetByEmail(
 		email: string
 	): Promise<Required<UserModel> | undefined> {
-		const user = this.users.find((user) => user.email === email)
+		const user = await this.db.user.findOne({
+			email,
+		})
 
-		return user
+		// @ts-ignore
+		return user ? new UserModel(user, user._id) : undefined
 	}
 
 	async userUpdate(
@@ -108,10 +122,8 @@ export class MongoUserRepository implements UserRepositoryContract {
 		}
 	}
 	async userDelete(user_id: string): Promise<void> {
-		const index = this.users.findIndex((user) => user._id === user_id)
-
-		if (index !== -1) {
-			this.users.splice(index, 1)
-		}
+		await this.db.user.deleteOne({
+			_id: user_id,
+		})
 	}
 }

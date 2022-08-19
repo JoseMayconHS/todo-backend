@@ -48,6 +48,61 @@ Projeto de gerenciamento de tarefas
   }
 ```
 
+## Grafo de usuário
+
+```graphql
+type Step {
+	_id: ID!
+	label: String!
+	index: Int!
+}
+
+type Member {
+	_id: ID!
+	name: String!
+	email: String!
+}
+
+type Checklist {
+	_id: ID!
+	description: String!
+	done: Boolean!
+}
+
+type Task {
+	_id: ID!
+	step_id: [ID]!
+	priority: Int!
+	members_id: [Member]!
+	title: String!
+	description: String!
+	doneAt: Int
+	checklist: [Checklist]!
+	created_at: String!
+	update_at: String!
+}
+
+type Workspace {
+	_id: String!
+	title: String!
+	members_id: [Member]!
+	favorite: Boolean!
+	description: String!
+	tasks: [Task]!
+	steps: [Step]!
+	created_at: String!
+	update_at: String!
+}
+
+type User {
+	name: String!
+	email: String!
+	workspaces: [Workspace]!
+	created_at: String!
+	update_at: String!
+}
+```
+
 ## Mutation
 
 - Cadastro de usuário
@@ -67,6 +122,36 @@ Projeto de gerenciamento de tarefas
 
   type Mutation {
   	register(data: RegisterInput): RegisterOutput
+  }
+  ```
+
+- Login de usuário
+
+  ```graphql
+  input LoginInput {
+  	email: String!
+  	password: String!
+  }
+
+  type LoginOutput {
+  	data: User!
+  	token: String!
+  }
+
+  type Mutation {
+  	login(data: LoginInput): LoginOutput
+  }
+  ```
+
+- Remover usuário **(Requer token)**
+
+  ```graphql
+  type RemoveOutput {
+  	ok: Boolean!
+  }
+
+  type Mutation {
+  	removeUser: RemoveOutput
   }
   ```
 

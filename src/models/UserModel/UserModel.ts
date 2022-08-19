@@ -98,12 +98,16 @@ export class UserModel extends Model {
 		}
 	}
 
-	async setPassword(password: string, noEncrypt?: boolean) {
+	setPassword(password: string, noEncrypt?: boolean) {
 		if (noEncrypt) {
 			this.password = password
 		} else {
-			UserModel.validatePassword(password)
-			this.encrypt(password)
+			try {
+				UserModel.validatePassword(password)
+				this.encrypt(password)
+			} catch (e) {
+				this.errorMessage = e.message
+			}
 		}
 	}
 
@@ -359,6 +363,8 @@ export class UserModel extends Model {
 		const payload = {
 			...this,
 		}
+
+		delete this.errorMessage
 
 		return payload
 	}

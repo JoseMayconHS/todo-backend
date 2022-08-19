@@ -46,19 +46,19 @@ describe('Create User', () => {
 	 */
 
 	// it('should not be able create user without password', async () => {
-	// 	let errorMessage = ''
+	// let errorMessage = ''
 
-	// 	try {
-	// 		await createUserUseCase.execute({
-	// 			name: 'Maycon Silva',
-	// 			password: '',
-	// 			email: 'a@g.com',
-	// 		})
-	// 	} catch (e) {
-	// 		errorMessage = e.message
-	// 	}
+	// try {
+	// 	await createUserUseCase.execute({
+	// 		name: 'Maycon Silva',
+	// 		password: '',
+	// 		email: 'a@g.com',
+	// 	})
+	// } catch (e) {
+	// 	errorMessage = e.message
+	// }
 
-	// 	expect(errorMessage).toBe('Senha inválida')
+	// expect(errorMessage).toBe('Senha inválida')
 	// })
 
 	// it('should not be able create user with password length < 6', async () => {
