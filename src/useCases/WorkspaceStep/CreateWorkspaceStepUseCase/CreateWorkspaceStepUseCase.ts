@@ -6,7 +6,11 @@ export class CreateWorkspaceStepUseCase {
 		private WorkspaceStepRepository: WorkspaceStepRepositoryContract
 	) {}
 
-	async execute(data = {} as CreateStepDTO, workspace_id = '', user_id = '') {
+	async execute(
+		data = {} as CreateStepDTO,
+		workspace_id = '',
+		user_id = ''
+	): Promise<string> {
 		if (!Object.values(data).length) {
 			throw new Error('Nenhuma informação para atualizar')
 		}

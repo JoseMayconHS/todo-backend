@@ -6,9 +6,13 @@ import {
 export class CreateTaskUseCase {
 	constructor(private TaskRepository: TaskRepositoryContract) {}
 
-	async execute(data = {} as CreateTaskDTO, workspace_id = '', user_id = '') {
+	async execute(
+		data = {} as CreateTaskDTO,
+		workspace_id = '',
+		user_id = ''
+	): Promise<string> {
 		if (!Object.values(data).length) {
-			throw new Error('Nenhuma informação para atualizar')
+			throw new Error('Nenhuma informação para criar tarefa')
 		}
 
 		if (!data.title) {

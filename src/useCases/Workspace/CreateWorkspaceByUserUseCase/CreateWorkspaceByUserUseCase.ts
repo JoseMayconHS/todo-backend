@@ -6,7 +6,10 @@ import {
 export class CreateWorkspaceByUserUseCase {
 	constructor(private WorkspaceRepository: WorkspaceRepositoryContract) {}
 
-	async execute(data = {} as CreateWorkspaceDTO, user_id = '') {
+	async execute(
+		data = {} as CreateWorkspaceDTO,
+		user_id = ''
+	): Promise<string> {
 		if (!user_id) {
 			throw new Error('ID do usuário inválido')
 		}
@@ -15,11 +18,8 @@ export class CreateWorkspaceByUserUseCase {
 			throw new Error('Título inválido')
 		}
 
-		const workspace_id = await this.WorkspaceRepository.workspaceCreate(
-			data,
-			user_id
-		)
+		const _id = await this.WorkspaceRepository.workspaceCreate(data, user_id)
 
-		return workspace_id
+		return _id
 	}
 }

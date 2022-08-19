@@ -18,12 +18,10 @@ export class AddWorkspaceMemberUseCase {
 			throw new Error('ID do usuário inválido')
 		}
 
-		const _id = await this.WorkspaceMemberRepository.addWorkspaceMember(
+		await this.WorkspaceMemberRepository.addWorkspaceMember(
 			member_id,
 			workspace_id,
 			user_id
 		)
-
-		return _id
 	}
 }

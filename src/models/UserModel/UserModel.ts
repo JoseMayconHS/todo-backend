@@ -1,8 +1,9 @@
+import { CreateTaskChecklistDTO } from '@repositories/userRepository/TaskChecklistRepository'
 import bcryptjs from 'bcryptjs'
 import jsonwebtoken from 'jsonwebtoken'
 import { v1 } from 'uuid'
 
-import { TaskModel } from '@models/TaskModel/TaskModel'
+import { Checklist, TaskModel } from '@models/TaskModel/TaskModel'
 import {
 	CreateStepDTO,
 	Step,
@@ -12,11 +13,6 @@ import { CreateTaskDTO } from '@repositories/userRepository/TaskRepository'
 import { CreateUserDTO } from '@repositories/userRepository/UserRepository'
 import { CreateWorkspaceDTO } from '@repositories/userRepository/WorkspaceRepository'
 import { Model } from '..'
-
-export type Checklist = {
-	description: string
-	done: boolean
-}
 
 export interface UserPayload
 	extends Omit<
@@ -292,6 +288,57 @@ export class UserModel extends Model {
 
 		this.updateTask(task_id, workspace_id, {
 			members_id: task.members_id,
+		})
+	}
+
+	addChecklistItemInTask(
+		task_id: string,
+		workspace_id: string,
+		data: CreateTaskChecklistDTO
+	): Required<Checklist> {
+		const workspace = this.getWorkspace(workspace_id)
+
+		const task = workspace.getTask(task_id)
+
+		const checkitem = task.addChecklist(data)
+
+		this.updateTask(task_id, workspace_id, {
+			checklist: task.checklist,
+		})
+
+		return checkitem
+	}
+
+	updateChecklistItemInTask(
+		checkitem_id: string,
+		task_id: string,
+		workspace_id: string,
+		data: Partial<CreateTaskChecklistDTO>
+	): Required<void> {
+		const workspace = this.getWorkspace(workspace_id)
+
+		const task = workspace.getTask(task_id)
+
+		task.updateChecklist(checkitem_id, data)
+
+		this.updateTask(task_id, workspace_id, {
+			checklist: task.checklist,
+		})
+	}
+
+	deleteChecklistItemInTask(
+		checkitem_id: string,
+		task_id: string,
+		workspace_id: string
+	) {
+		const workspace = this.getWorkspace(workspace_id)
+
+		const task = workspace.getTask(task_id)
+
+		task.deleteChecklist(checkitem_id)
+
+		this.updateTask(task_id, workspace_id, {
+			checklist: task.checklist,
 		})
 	}
 
