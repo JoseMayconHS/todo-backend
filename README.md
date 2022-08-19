@@ -51,33 +51,10 @@ Projeto de gerenciamento de tarefas
 ## Grafo de usuário
 
 ```graphql
-type Step {
-	_id: ID!
-	label: String!
-	index: Int!
-}
-
-type Member {
-	_id: ID!
+type User {
 	name: String!
 	email: String!
-}
-
-type Checklist {
-	_id: ID!
-	description: String!
-	done: Boolean!
-}
-
-type Task {
-	_id: ID!
-	step_id: [ID]!
-	priority: Int!
-	members_id: [Member]!
-	title: String!
-	description: String!
-	doneAt: Int
-	checklist: [Checklist]!
+	workspaces: [Workspace]!
 	created_at: String!
 	update_at: String!
 }
@@ -94,16 +71,47 @@ type Workspace {
 	update_at: String!
 }
 
-type User {
-	name: String!
-	email: String!
-	workspaces: [Workspace]!
+type Step {
+	_id: ID!
+	label: String!
+	index: Int!
+}
+
+type Task {
+	_id: ID!
+	step_id: [ID]!
+	priority: Int!
+	members_id: [Member]!
+	title: String!
+	description: String!
+	doneAt: Int
+	checklist: [Checklist]!
 	created_at: String!
 	update_at: String!
+}
+
+type Checklist {
+	_id: ID!
+	description: String!
+	done: Boolean!
+}
+
+type Member {
+	_id: ID!
+	name: String!
+	email: String!
 }
 ```
 
 ## Mutation
+
+### `type` compartilhados
+
+```graphql
+type SimpleOutput {
+	ok: Boolean
+}
+```
 
 - Cadastro de usuário
 
@@ -146,12 +154,22 @@ type User {
 - Remover usuário **(Requer token)**
 
   ```graphql
-  type RemoveOutput {
-  	ok: Boolean!
+  type Mutation {
+  	removeUser: SimpleOutput
+  }
+  ```
+
+- Atualizar usuário **(Requer token)**
+
+  ```graphql
+  input UpdateUserInput {
+  	name: String
+  	email: String
+  	password: String
   }
 
   type Mutation {
-  	removeUser: RemoveOutput
+  	updateUser(data: UpdateUserInput): SimpleOutput
   }
   ```
 

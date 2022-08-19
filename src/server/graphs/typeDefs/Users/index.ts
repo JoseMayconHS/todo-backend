@@ -44,21 +44,33 @@ const UserLoginTypeDefs = gql`
 	}
 `
 
-export type RemoveOutput = {
+export type SimpleOutput = {
 	ok: boolean
 }
 
 const UserDeleteTypeDefs = gql`
-	type RemoveOutput {
-		ok: Boolean!
+	type Mutation {
+		removeUser: SimpleOutput
+	}
+`
+
+const UserUpdateTypeDefs = gql`
+	input UpdateUserInput {
+		name: String
+		email: String
+		password: String
 	}
 
 	type Mutation {
-		removeUser: RemoveOutput
+		updateUser(data: UpdateUserInput): SimpleOutput
 	}
 `
 
 export const UserTypeDefs = gql`
+	type SimpleOutput {
+		ok: Boolean
+	}
+
 	type Step {
 		_id: ID!
 		label: String!
@@ -113,4 +125,5 @@ export const UserTypeDefs = gql`
 	${UserRegisterTypeDefs}
 	${UserLoginTypeDefs}
 	${UserDeleteTypeDefs}
+	${UserUpdateTypeDefs}
 `

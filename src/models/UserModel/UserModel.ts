@@ -17,8 +17,8 @@ import { Model } from '..'
 export interface UserPayload
 	extends Omit<
 		UserModel,
+		| 'errorMessage'
 		| 'token'
-		| 'encrypt'
 		| 'setPassword'
 		| 'setName'
 		| 'setEmail'
@@ -77,6 +77,16 @@ export class UserModel extends Model {
 		return true
 	}
 
+	static encrypt(password) {
+		UserModel.validatePassword(password)
+
+		const salt = bcryptjs.genSaltSync()
+
+		const hash = bcryptjs.hashSync(password, salt)
+
+		return hash
+	}
+
 	constructor(props: CreateUserDTO, _id?: string) {
 		super({ ...props, _id } as Model)
 
@@ -103,8 +113,7 @@ export class UserModel extends Model {
 			this.password = password
 		} else {
 			try {
-				UserModel.validatePassword(password)
-				this.encrypt(password)
+				this.password = UserModel.encrypt(password)
 			} catch (e) {
 				this.errorMessage = e.message
 			}
@@ -126,14 +135,6 @@ export class UserModel extends Model {
 		)
 
 		return `Bearer ${token}`
-	}
-
-	encrypt(password = this.password) {
-		const salt = bcryptjs.genSaltSync()
-
-		const hash = bcryptjs.hashSync(password, salt)
-
-		this.password = hash
 	}
 
 	comparePassword(password: string) {

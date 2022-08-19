@@ -105,21 +105,26 @@ export class MongoUserRepository implements UserRepositoryContract {
 		user_id: string,
 		data: Partial<CreateUserDTO>
 	): Promise<void> {
-		const index = this.users.findIndex((user) => user._id === user_id)
-
-		if (index !== -1) {
-			const newUser = new UserModel(
-				{
-					...this.users[index],
-					...data,
-				},
-				user_id
-			) as Required<UserModel>
-
-			data.password && newUser.encrypt()
-
-			this.users.splice(index, 1, newUser)
+		if (data.password !== undefined) {
+			data.password = UserModel.encrypt(data.password)
 		}
+
+		if (data.email !== undefined) {
+			UserModel.validateEmail(data.email)
+		}
+
+		if (data.name !== undefined) {
+			UserModel.validateName(data.name)
+		}
+
+		await this.db.user.updateOne(
+			{
+				_id: user_id,
+			},
+			{
+				$set: data,
+			}
+		)
 	}
 	async userDelete(user_id: string): Promise<void> {
 		await this.db.user.deleteOne({
