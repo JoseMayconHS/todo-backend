@@ -111,6 +111,11 @@ type Member {
 type SimpleOutput {
 	ok: Boolean
 }
+
+type PayloadOutput {
+	data: User!
+	token: String!
+}
 ```
 
 - Cadastro de usuário
@@ -141,13 +146,8 @@ type SimpleOutput {
   	password: String!
   }
 
-  type LoginOutput {
-  	data: User!
-  	token: String!
-  }
-
   type Mutation {
-  	login(data: LoginInput): LoginOutput
+  	login(data: LoginInput): PayloadOutput
   }
   ```
 
@@ -170,6 +170,14 @@ type SimpleOutput {
 
   type Mutation {
   	updateUser(data: UpdateUserInput): SimpleOutput
+  }
+  ```
+
+- Encontrar usuário por ID **(Requer token)**
+
+  ```graphql
+  type Query {
+  	findUserByID(_id: ID!): User
   }
   ```
 

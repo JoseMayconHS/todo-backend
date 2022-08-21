@@ -4,7 +4,7 @@ import { UserRepositoryContract } from '@repositories/userRepository/UserReposit
 export class FindUserByIDUseCase {
 	constructor(private UserRepository: UserRepositoryContract) {}
 
-	async execute(user_id = ''): Promise<UserModel> {
+	async execute(user_id = ''): Promise<UserModel | undefined> {
 		if (!user_id) {
 			throw new Error('ID do usuário inválido')
 		}

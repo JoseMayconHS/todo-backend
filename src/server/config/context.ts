@@ -8,7 +8,7 @@ type Filter = {
 	email?: string
 }
 
-export type TContext = {
+export type GraphContext = {
 	payload: JWTDecoded
 	db: MongoDB
 	verifyUser(): Error | void
@@ -21,7 +21,7 @@ type ContextParams = {
 
 export const contextFactory = (
 	db: MongoDB
-): ((props: ContextParams) => TContext) => {
+): ((props: ContextParams) => GraphContext) => {
 	return ({ req }) => {
 		const auth = req.headers.authorization ?? ''
 

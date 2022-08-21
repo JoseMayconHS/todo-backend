@@ -1,5 +1,5 @@
+import { UserQuery } from './User'
+
 export default {
-	olamundo() {
-		return ''
-	},
+	...UserQuery,
 }

@@ -26,7 +26,7 @@ const UserRegisterTypeDefs = gql`
 	}
 `
 
-export type LoginOutput = LoginUserResponse
+export type PayloadOutput = LoginUserResponse
 
 const UserLoginTypeDefs = gql`
 	input LoginInput {
@@ -34,13 +34,14 @@ const UserLoginTypeDefs = gql`
 		password: String!
 	}
 
-	type LoginOutput {
-		data: User!
-		token: String!
-	}
-
 	type Mutation {
-		login(data: LoginInput): LoginOutput
+		login(data: LoginInput): PayloadOutput
+	}
+`
+
+const UserFindByIdTypeDefs = gql`
+	type Query {
+		findUserByID(_id: ID!): User
 	}
 `
 
@@ -115,6 +116,7 @@ export const UserTypeDefs = gql`
 	}
 
 	type User {
+		_id: ID!
 		name: String!
 		email: String!
 		workspaces: [Workspace]!
@@ -122,8 +124,14 @@ export const UserTypeDefs = gql`
 		update_at: String!
 	}
 
+	type PayloadOutput {
+		data: User!
+		token: String!
+	}
+
 	${UserRegisterTypeDefs}
 	${UserLoginTypeDefs}
 	${UserDeleteTypeDefs}
 	${UserUpdateTypeDefs}
+	${UserFindByIdTypeDefs}
 `

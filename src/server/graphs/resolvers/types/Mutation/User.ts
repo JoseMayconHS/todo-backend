@@ -1,7 +1,7 @@
 import { UserRepository } from '@repositories/repositories'
-import { TContext } from '@server/config/context'
+import { GraphContext } from '@server/config/context'
 import {
-	LoginOutput,
+	PayloadOutput,
 	RegisterOutput,
 	SimpleOutput,
 } from '@server/graphs/typeDefs/Users'
@@ -11,7 +11,7 @@ import { DeleteUserUseCase } from './../../../../../useCases/User/DeleteUserUseC
 import { UpdateUserUseCase } from './../../../../../useCases/User/UpdateUserUseCase/UpdateUserUseCase'
 
 export const UserMutation = {
-	async register(_, { data }, ctx: TContext): Promise<RegisterOutput> {
+	async register(_, { data }, ctx: GraphContext): Promise<RegisterOutput> {
 		try {
 			const userRepository = new UserRepository(ctx.db)
 
@@ -31,7 +31,7 @@ export const UserMutation = {
 			}
 		}
 	},
-	async login(_, { data }, ctx: TContext): Promise<LoginOutput> {
+	async login(_, { data }, ctx: GraphContext): Promise<PayloadOutput> {
 		try {
 			const userRepository = new UserRepository(ctx.db)
 
@@ -44,8 +44,10 @@ export const UserMutation = {
 			throw new Error(e.message)
 		}
 	},
-	async removeUser(_, {}, ctx: TContext): Promise<SimpleOutput> {
+	async removeUser(_, {}, ctx: GraphContext): Promise<SimpleOutput> {
 		try {
+			ctx?.verifyUser()
+
 			const userRepository = new UserRepository(ctx.db)
 
 			const deleteUserUseCase = new DeleteUserUseCase(userRepository)
@@ -59,8 +61,10 @@ export const UserMutation = {
 			throw new Error(e.message)
 		}
 	},
-	async updateUser(_, { data }, ctx: TContext): Promise<SimpleOutput> {
+	async updateUser(_, { data }, ctx: GraphContext): Promise<SimpleOutput> {
 		try {
+			ctx?.verifyUser()
+
 			const userRepository = new UserRepository(ctx.db)
 
 			const updateUserUseCase = new UpdateUserUseCase(userRepository)
