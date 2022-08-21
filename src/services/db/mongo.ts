@@ -1,10 +1,10 @@
 import { Collection, Document, MongoClient } from 'mongodb'
 
-export type MongoDB = {
+export type Mongo = {
 	user: Collection<Document>
 }
 
-export class Mongo {
+export class MongoService {
 	#user: Collection<Document>
 
 	constructor(serverCallback: Function) {

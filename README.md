@@ -146,7 +146,7 @@ type PayloadOutput {
   	password: String!
   }
 
-  type Mutation {
+  type Query {
   	login(data: LoginInput): PayloadOutput
   }
   ```
@@ -156,6 +156,14 @@ type PayloadOutput {
   ```graphql
   type Query {
   	reconnect: PayloadOutput
+  }
+  ```
+
+- Logout do usuário **(Requer token)**
+
+  ```graphql
+  type Query {
+  	logout: SimpleOutput
   }
   ```
 
@@ -207,6 +215,6 @@ Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de
 
 `JWT_SECRET`
 
-`MONGO_URL`
+`MONGO_URL` - `MONGO_DBNAME` - `MONGO_USER` - `MONGO_PASS`
 
-`MONGO_DBNAME`
+`REDIS_HOST` - `REDIS_PORT` - `REDIS_USER` - `REDIS_PASS`

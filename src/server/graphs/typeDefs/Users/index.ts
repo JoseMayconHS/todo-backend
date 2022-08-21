@@ -34,7 +34,7 @@ const UserLoginTypeDefs = gql`
 		password: String!
 	}
 
-	type Mutation {
+	type Query {
 		login(data: LoginInput): PayloadOutput
 	}
 `
@@ -48,6 +48,12 @@ const UserFindByIdTypeDefs = gql`
 const UserReconnectTypeDefs = gql`
 	type Query {
 		reconnect: PayloadOutput
+	}
+`
+
+const UserLogoutTypeDefs = gql`
+	type Query {
+		logout: SimpleOutput
 	}
 `
 
@@ -137,6 +143,7 @@ export const UserTypeDefs = gql`
 
 	${UserRegisterTypeDefs}
 	${UserLoginTypeDefs}
+	${UserLogoutTypeDefs}
 	${UserDeleteTypeDefs}
 	${UserUpdateTypeDefs}
 	${UserFindByIdTypeDefs}

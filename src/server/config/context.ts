@@ -1,7 +1,9 @@
-import { JWTDecoded, validateToken } from '@utils/validateToken'
 import { Request } from 'express'
 
-import { MongoDB } from '@services/db/mongo'
+import { JWTDecoded, validateToken } from '@utils/validateToken'
+
+import { Mongo } from '@services/db/mongo'
+import { RedisService } from '@services/inMemory/redis/RedisService'
 
 type Filter = {
 	_id?: string
@@ -9,28 +11,27 @@ type Filter = {
 }
 
 export type GraphContext = {
-	revokeToken(): void
+	revokeToken(): Promise<void>
 	payload: JWTDecoded
-	db: MongoDB
-	verifyUser(): Error | void
-	verifyMySelf(props: Filter): Error | void
+	db: Mongo
+	verifyUser(): Promise<Error | void>
 }
 
-const black_list_tokens = []
+const redisService = new RedisService(RedisService.db.tokens)
 
 type ContextParams = {
 	req: Request
 }
 
 export const contextFactory = (
-	db: MongoDB
+	db: Mongo
 ): ((props: ContextParams) => GraphContext) => {
 	return ({ req }) => {
 		const auth = req.headers.authorization ?? ''
 
 		let payload: JWTDecoded
 
-		if (auth && !black_list_tokens.some((token) => token === auth)) {
+		if (auth) {
 			try {
 				payload = validateToken(auth)
 			} catch (e) {
@@ -40,26 +41,28 @@ export const contextFactory = (
 
 		const err = new Error('Acesso negado!')
 
+		const verifyTokenInBlackList = async () => {
+			const res = await redisService.getItem(
+				`${RedisService.keys.tokens}:${payload.token_id}`
+			)
+			return !!res
+		}
+
 		return {
 			payload,
 			db,
-			revokeToken() {
-				black_list_tokens.push(auth)
+			async revokeToken() {
+				await redisService.setItem({
+					key: `${RedisService.keys.tokens}:${payload.token_id}`,
+					value: auth,
+				})
 			},
-			verifyUser() {
-				if (!payload) throw err
-			},
-			verifyMySelf(filter) {
+			async verifyUser() {
 				if (!payload) throw err
 
-				if (!filter) throw err
-
-				const { _id, email } = filter
-
-				if (!_id && !email) throw err
-
-				if (_id && payload._id !== _id) throw err
-				if (email && payload.email !== email) throw err
+				if (await verifyTokenInBlackList()) {
+					throw err
+				}
 			},
 		}
 	}

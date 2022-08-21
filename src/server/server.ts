@@ -1,7 +1,7 @@
 import { ApolloServer } from 'apollo-server'
 import dotenv from 'dotenv'
 
-import { Mongo, MongoDB } from '@services/db/mongo'
+import { Mongo, MongoService } from '@services/db/mongo'
 
 import { contextFactory } from './config/context'
 import resolvers from './graphs/resolvers'
@@ -11,7 +11,7 @@ dotenv.config()
 
 type AppProps = {
 	PORT?: number
-	db: MongoDB
+	db: Mongo
 }
 
 class App {
@@ -30,4 +30,4 @@ class App {
 	}
 }
 
-new Mongo((db: MongoDB) => new App({ db }))
+new MongoService((db: Mongo) => new App({ db }))

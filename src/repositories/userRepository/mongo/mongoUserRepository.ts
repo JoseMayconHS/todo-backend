@@ -1,5 +1,5 @@
 import { UserModel } from '@models/UserModel/UserModel'
-import { MongoDB } from '@services/db/mongo'
+import { Mongo } from '@services/db/mongo'
 import {
 	LoginUser,
 	LoginUserResponse,
@@ -10,7 +10,7 @@ import { CreateUserDTO, UserRepositoryContract } from '../UserRepository'
 export class MongoUserRepository implements UserRepositoryContract {
 	public users: Required<UserModel>[] = []
 
-	constructor(private db: MongoDB) {}
+	constructor(private db: Mongo) {}
 
 	async userLogin(
 		data: LoginUser,
