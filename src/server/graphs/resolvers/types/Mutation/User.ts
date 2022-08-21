@@ -1,9 +1,11 @@
 import { UserRepository } from '@repositories/repositories'
+
 import { GraphContext } from '@server/config/context'
 import { RegisterOutput, SimpleOutput } from '@server/graphs/typeDefs/Users'
+
 import { CreateUserUseCase } from '@useCases/User/CreateUserUseCase/CreateUserUseCase'
-import { DeleteUserUseCase } from './../../../../../useCases/User/DeleteUserUseCase/DeleteUserUseCase'
-import { UpdateUserUseCase } from './../../../../../useCases/User/UpdateUserUseCase/UpdateUserUseCase'
+import { DeleteUserUseCase } from '@useCases/User/DeleteUserUseCase/DeleteUserUseCase'
+import { UpdateUserUseCase } from '@useCases/User/UpdateUserUseCase/UpdateUserUseCase'
 
 export const UserMutation = {
 	async register(_, { data }, ctx: GraphContext): Promise<RegisterOutput> {

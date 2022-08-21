@@ -8,4 +8,5 @@ export interface InMemoryService {
 	getItem(key: string): Promise<string | null>
 	delItem(key: string): Promise<void>
 	delAll(keyPattern: string): Promise<void>
+	getAll(keyPattern: string): Promise<string[]>
 }

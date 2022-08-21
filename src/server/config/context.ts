@@ -3,12 +3,7 @@ import { Request } from 'express'
 import { JWTDecoded, validateToken } from '@utils/validateToken'
 
 import { Mongo } from '@services/db/mongo'
-import { RedisService } from '@services/inMemory/redis/RedisService'
-
-type Filter = {
-	_id?: string
-	email?: string
-}
+import { RedisService } from '@services/InMemoryService/Redis/RedisService'
 
 export type GraphContext = {
 	revokeToken(): Promise<void>
@@ -17,15 +12,19 @@ export type GraphContext = {
 	verifyUser(): Promise<Error | void>
 }
 
-const redisService = new RedisService(RedisService.db.tokens)
-
 type ContextParams = {
 	req: Request
 }
 
-export const contextFactory = (
+type ContextFactoryProps = {
 	db: Mongo
-): ((props: ContextParams) => GraphContext) => {
+	redis: RedisService
+}
+
+export const contextFactory = ({
+	db,
+	redis,
+}: ContextFactoryProps): ((props: ContextParams) => GraphContext) => {
 	return ({ req }) => {
 		const auth = req.headers.authorization ?? ''
 
@@ -42,7 +41,7 @@ export const contextFactory = (
 		const err = new Error('Acesso negado!')
 
 		const verifyTokenInBlackList = async () => {
-			const res = await redisService.getItem(
+			const res = await redis.getItem(
 				`${RedisService.keys.tokens}:${payload.token_id}`
 			)
 			return !!res
@@ -52,7 +51,7 @@ export const contextFactory = (
 			payload,
 			db,
 			async revokeToken() {
-				await redisService.setItem({
+				await redis.setItem({
 					key: `${RedisService.keys.tokens}:${payload.token_id}`,
 					value: auth,
 				})

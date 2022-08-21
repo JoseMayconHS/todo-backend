@@ -2,11 +2,8 @@ import { UserObj } from '@models/UserModel/UserModel'
 import { UserRepository } from '@repositories/repositories'
 import { GraphContext } from '@server/config/context'
 import { PayloadOutput, SimpleOutput } from '@server/graphs/typeDefs/Users'
-import { RedisService } from '@services/inMemory/redis/RedisService'
 import { FindUserByIDUseCase } from '@useCases/User/FindUserByIDUseCase/FindUserByIDUseCase'
 import { LoginUserUseCase } from '@useCases/User/LoginUserUseCase/LoginUserUseCase'
-
-const redisService = new RedisService(RedisService.db.tokens)
 
 export const UserQuery = {
 	async findUserByID(_, { _id }, ctx: GraphContext): Promise<UserObj> {

@@ -1,9 +1,6 @@
-import dotenv from 'dotenv'
 import Redis, { RedisOptions } from 'ioredis'
 
 import { InMemoryService, SetItemData } from '../InMemoryService'
-
-dotenv.config()
 
 export const redisConfig: RedisOptions = {
 	host: process.env.REDIS_HOST,
@@ -51,8 +48,20 @@ export class RedisService implements InMemoryService {
 	}
 
 	async delAll(keyPattern: string): Promise<void> {
-		const keys = await this.#redisClient.keys(`${keyPattern}*`)
+		const keys = await this.#redisClient.keys(`${keyPattern}:*`)
 
 		await this.#redisClient.del(keys)
+	}
+
+	async getAll(keyPattern: string): Promise<string[]> {
+		const res = []
+
+		const keys = await this.#redisClient.keys(`${keyPattern}:*`)
+
+		for await (const key of keys) {
+			res.push(await this.#redisClient.get(key))
+		}
+
+		return res
 	}
 }
