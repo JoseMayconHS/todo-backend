@@ -1,6 +1,12 @@
 # TODO BACKEND
 
-Projeto de gerenciamento de tarefas
+Aplicação de gerenciamento de tarefas desenvolvido em Graphql.
+
+## Efeitos colaterais
+
+- O token é revogado ao fazer a consulta `reconnect` e `logout`. `reconnect` retorna um novo token;
+
+- Tokens revogados são tirados da lista negra todos os dias a meia-noite.
 
 ## Estrutura de dados
 
@@ -52,6 +58,7 @@ Projeto de gerenciamento de tarefas
 
 ```graphql
 type User {
+	_id: ID!
 	name: String!
 	email: String!
 	workspaces: [Workspace]!
@@ -103,8 +110,6 @@ type Member {
 }
 ```
 
-## Mutation
-
 ### `type` compartilhados
 
 ```graphql
@@ -117,6 +122,47 @@ type PayloadOutput {
 	token: String!
 }
 ```
+
+## Query
+
+- Login de usuário
+
+  ```graphql
+  input LoginInput {
+  	email: String!
+  	password: String!
+  }
+
+  type Query {
+  	login(data: LoginInput): PayloadOutput
+  }
+  ```
+
+- Logout do usuário **(Requer token)**
+
+  ```graphql
+  type Query {
+  	logout: SimpleOutput
+  }
+  ```
+
+- Reconexão do usuário **(Requer token)**
+
+  ```graphql
+  type Query {
+  	reconnect: PayloadOutput
+  }
+  ```
+
+- Encontrar usuário por ID **(Requer token)**
+
+  ```graphql
+  type Query {
+  	findUserByID(_id: ID!): User
+  }
+  ```
+
+## Mutation
 
 - Cadastro de usuário
 
@@ -135,35 +181,6 @@ type PayloadOutput {
 
   type Mutation {
   	register(data: RegisterInput): RegisterOutput
-  }
-  ```
-
-- Login de usuário
-
-  ```graphql
-  input LoginInput {
-  	email: String!
-  	password: String!
-  }
-
-  type Query {
-  	login(data: LoginInput): PayloadOutput
-  }
-  ```
-
-- Reconexão do usuário **(Requer token)**
-
-  ```graphql
-  type Query {
-  	reconnect: PayloadOutput
-  }
-  ```
-
-- Logout do usuário **(Requer token)**
-
-  ```graphql
-  type Query {
-  	logout: SimpleOutput
   }
   ```
 
@@ -189,13 +206,11 @@ type PayloadOutput {
   }
   ```
 
-- Encontrar usuário por ID **(Requer token)**
+## Ambiente configurado com Docker
 
-  ```graphql
-  type Query {
-  	findUserByID(_id: ID!): User
-  }
-  ```
+```bash
+  docker-compose up -d
+```
 
 ## Rodando os testes
 
