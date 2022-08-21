@@ -1,7 +1,9 @@
 import { UserObj } from '@models/UserModel/UserModel'
 import { UserRepository } from '@repositories/repositories'
 import { GraphContext } from '@server/config/context'
+import { PayloadOutput } from '@server/graphs/typeDefs/Users'
 import { FindUserByIDUseCase } from '@useCases/User/FindUserByIDUseCase/FindUserByIDUseCase'
+import { LoginUserUseCase } from '@useCases/User/LoginUserUseCase/LoginUserUseCase'
 
 export const UserQuery = {
 	async findUserByID(_, { _id }, ctx: GraphContext): Promise<UserObj> {
@@ -15,6 +17,23 @@ export const UserQuery = {
 			const user = await findUserByIDUseCase.execute(_id)
 
 			return user?.toObj()
+		} catch (e) {
+			throw new Error(e.message)
+		}
+	},
+	async reconnect(_, {}, ctx: GraphContext): Promise<PayloadOutput> {
+		try {
+			ctx?.verifyUser()
+
+			const userRepository = new UserRepository(ctx.db)
+
+			const loginUserUseCase = new LoginUserUseCase(userRepository)
+
+			const payload = await loginUserUseCase.execute(ctx.payload, true)
+
+			ctx.revokeToken()
+
+			return payload
 		} catch (e) {
 			throw new Error(e.message)
 		}

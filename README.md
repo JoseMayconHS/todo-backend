@@ -151,6 +151,14 @@ type PayloadOutput {
   }
   ```
 
+- Reconexão do usuário **(Requer token)**
+
+  ```graphql
+  type Query {
+  	reconnect: PayloadOutput
+  }
+  ```
+
 - Remover usuário **(Requer token)**
 
   ```graphql

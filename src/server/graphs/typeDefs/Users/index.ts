@@ -45,6 +45,12 @@ const UserFindByIdTypeDefs = gql`
 	}
 `
 
+const UserReconnectTypeDefs = gql`
+	type Query {
+		reconnect: PayloadOutput
+	}
+`
+
 export type SimpleOutput = {
 	ok: boolean
 }
@@ -134,4 +140,5 @@ export const UserTypeDefs = gql`
 	${UserDeleteTypeDefs}
 	${UserUpdateTypeDefs}
 	${UserFindByIdTypeDefs}
+	${UserReconnectTypeDefs}
 `

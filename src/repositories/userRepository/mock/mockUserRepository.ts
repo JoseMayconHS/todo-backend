@@ -3,7 +3,6 @@ import {
 	LoginUser,
 	LoginUserResponse,
 } from '@useCases/User/LoginUserUseCase/LoginUserUseCase'
-import { validateToken } from '@utils/validateToken'
 
 import { CreateUserDTO, UserRepositoryContract } from '../UserRepository'
 
@@ -33,16 +32,6 @@ export class MockUserRepository implements UserRepositoryContract {
 			data: user.toObj(),
 			token: user.token(),
 		}
-	}
-
-	async userReconnect(bearer_token: string): Promise<LoginUserResponse> {
-		const decoded = validateToken(bearer_token)
-
-		const { email, password } = decoded
-
-		const payload = await this.userLogin({ email, password }, true)
-
-		return payload
 	}
 
 	async userCreate(data: CreateUserDTO): Promise<string> {
@@ -77,6 +66,18 @@ export class MockUserRepository implements UserRepositoryContract {
 	): Promise<void> {
 		const index = this.users.findIndex((user) => user._id === user_id)
 
+		if (data.password !== undefined) {
+			data.password = UserModel.encrypt(data.password)
+		}
+
+		if (data.email !== undefined) {
+			UserModel.validateEmail(data.email)
+		}
+
+		if (data.name !== undefined) {
+			UserModel.validateName(data.name)
+		}
+
 		if (index !== -1) {
 			const newUser = new UserModel(
 				{
@@ -86,7 +87,7 @@ export class MockUserRepository implements UserRepositoryContract {
 				user_id
 			) as Required<UserModel>
 
-			data.password && newUser.encrypt()
+			data.password && UserModel.encrypt(data.password)
 
 			this.users.splice(index, 1, newUser)
 		}

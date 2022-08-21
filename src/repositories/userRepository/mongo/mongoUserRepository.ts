@@ -4,7 +4,6 @@ import {
 	LoginUser,
 	LoginUserResponse,
 } from '@useCases/User/LoginUserUseCase/LoginUserUseCase'
-import { validateToken } from '@utils/validateToken'
 
 import { CreateUserDTO, UserRepositoryContract } from '../UserRepository'
 
@@ -40,16 +39,6 @@ export class MongoUserRepository implements UserRepositoryContract {
 			data: user.toObj(),
 			token: user.token(),
 		}
-	}
-
-	async userReconnect(bearer_token: string): Promise<LoginUserResponse> {
-		const decoded = validateToken(bearer_token)
-
-		const { email, password } = decoded
-
-		const payload = await this.userLogin({ email, password }, true)
-
-		return payload
 	}
 
 	async userCreate(data: CreateUserDTO): Promise<string> {

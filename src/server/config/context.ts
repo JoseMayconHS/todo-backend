@@ -9,11 +9,14 @@ type Filter = {
 }
 
 export type GraphContext = {
+	revokeToken(): void
 	payload: JWTDecoded
 	db: MongoDB
 	verifyUser(): Error | void
 	verifyMySelf(props: Filter): Error | void
 }
+
+const black_list_tokens = []
 
 type ContextParams = {
 	req: Request
@@ -27,7 +30,7 @@ export const contextFactory = (
 
 		let payload: JWTDecoded
 
-		if (auth) {
+		if (auth && !black_list_tokens.some((token) => token === auth)) {
 			try {
 				payload = validateToken(auth)
 			} catch (e) {
@@ -40,6 +43,9 @@ export const contextFactory = (
 		return {
 			payload,
 			db,
+			revokeToken() {
+				black_list_tokens.push(auth)
+			},
 			verifyUser() {
 				if (!payload) throw err
 			},

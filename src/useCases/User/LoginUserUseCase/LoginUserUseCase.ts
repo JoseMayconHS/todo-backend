@@ -14,7 +14,10 @@ export type LoginUserResponse = {
 export class LoginUserUseCase {
 	constructor(private UserRepository: UserRepositoryContract) {}
 
-	async execute(data = {} as LoginUser): Promise<LoginUserResponse> {
+	async execute(
+		data = {} as LoginUser,
+		reconnect?: boolean
+	): Promise<LoginUserResponse> {
 		if (!Object.values(data).length) {
 			throw new Error('Nenhuma informação para login')
 		}
@@ -23,7 +26,7 @@ export class LoginUserUseCase {
 
 		UserModel.validatePassword(data.password)
 
-		const payload = await this.UserRepository.userLogin(data)
+		const payload = await this.UserRepository.userLogin(data, reconnect)
 
 		return payload
 	}
