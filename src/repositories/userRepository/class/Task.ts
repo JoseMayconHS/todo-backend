@@ -10,7 +10,7 @@ export class TaskRepository implements TaskRepositoryContract {
 		data: CreateTaskDTO,
 		workspace_id: string,
 		user_id: string
-	): Promise<string> {
+	): Promise<string | undefined> {
 		const user = await this.UserRepository.userGetByID(user_id)
 
 		if (user) {

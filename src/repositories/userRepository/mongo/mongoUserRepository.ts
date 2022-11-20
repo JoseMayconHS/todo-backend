@@ -61,10 +61,10 @@ export class MongoUserRepository implements UserRepositoryContract {
 			}
 
 			// @ts-ignore
-			const _id = await this.db.user.insertOne(User.payload())
+			const response = await this.db.user.insertOne(User.payload())
 
 			// @ts-ignore
-			return String(_id.insertedId)
+			return String(response.insertedId)
 		} else {
 			throw new Error('E-mail já cadastrado')
 		}

@@ -7,7 +7,7 @@ export interface TaskRepositoryContract {
 		data: CreateTaskDTO,
 		workspace_id: string,
 		user_id: string
-	): Promise<string>
+	): Promise<string | undefined>
 	taskUpdate(
 		task_id: string,
 		workspace_id: string,
