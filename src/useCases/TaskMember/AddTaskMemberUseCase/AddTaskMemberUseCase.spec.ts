@@ -1,5 +1,5 @@
-import { UserRepository } from '../../../repositories/repositories'
 import { WorkspaceRepository } from '../../../repositories/userRepository/class/Workspace'
+import { MockUserRepository } from '../../../repositories/userRepository/mock/mockUserRepository'
 import { CreateUserUseCase } from '../../User/CreateUserUseCase/CreateUserUseCase'
 import { CreateWorkspaceByUserUseCase } from '../../Workspace/CreateWorkspaceByUserUseCase/CreateWorkspaceByUserUseCase'
 import { TaskRepository } from './../../../repositories/userRepository/class/Task'
@@ -9,7 +9,7 @@ import { FindTaskByWorkspaceUseCase } from './../../Task/FindTaskByWorkspaceUseC
 import { AddTaskMemberUseCase } from './AddTaskMemberUseCase'
 
 describe('Create Member in Task', () => {
-	const userRepository = new UserRepository()
+	const userRepository = new MockUserRepository()
 	const workspaceRepository = new WorkspaceRepository(userRepository)
 	const taskRepository = new TaskRepository(userRepository)
 	const taskMemberRepository = new TaskMemberRepository(userRepository)

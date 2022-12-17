@@ -14,35 +14,10 @@ import { CreateUserDTO } from '@repositories/userRepository/UserRepository'
 import { CreateWorkspaceDTO } from '@repositories/userRepository/WorkspaceRepository'
 import { Model } from '..'
 
-export interface UserPayload
-	extends Omit<
-		UserModel,
-		| 'errorMessage'
-		| 'token'
-		| 'setPassword'
-		| 'setName'
-		| 'setEmail'
-		| 'comparePassword'
-		| 'getWorkspace'
-		| 'addWorkspace'
-		| 'updateWorkspace'
-		| 'deleteWorkspace'
-		| 'addTask'
-		| 'updateTask'
-		| 'deleteTask'
-		| 'addMemberToTask'
-		| 'deleteMemberInTask'
-		| 'addChecklistItemInTask'
-		| 'updateChecklistItemInTask'
-		| 'deleteChecklistItemInTask'
-		| 'addStepToWorkspace'
-		| 'updateStepInWorkspace'
-		| 'deleteStepInWorkspace'
-		| 'addMemberToWorkspace'
-		| 'deleteMemberInWorkspace'
-		| 'toObj'
-		| 'payload'
-	> {}
+export type UserPayload = Pick<
+	UserModel,
+	'_id' | 'name' | 'email' | 'password' | 'workspaces'
+>
 
 export interface UserObj extends Omit<UserPayload, 'password'> {}
 
@@ -134,7 +109,7 @@ export class UserModel extends Model {
 			}
 		)
 
-		return `Bearer ${token}`
+		return token
 	}
 
 	comparePassword(password: string) {

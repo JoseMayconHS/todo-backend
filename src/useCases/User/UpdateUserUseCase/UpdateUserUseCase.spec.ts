@@ -1,11 +1,11 @@
-import { UserRepository } from '../../../repositories/repositories'
+import { MockUserRepository } from '../../../repositories/userRepository/mock/mockUserRepository'
 import { CreateUserUseCase } from '../CreateUserUseCase/CreateUserUseCase'
 import { FindUserByIDUseCase } from '../FindUserByIDUseCase/FindUserByIDUseCase'
 import { DeleteUserUseCase } from './../DeleteUserUseCase/DeleteUserUseCase'
 import { UpdateUserUseCase } from './UpdateUserUseCase'
 
 describe('Update Task', () => {
-	const userRepository = new UserRepository()
+	const userRepository = new MockUserRepository()
 
 	const updateUserUseCase = new UpdateUserUseCase(userRepository)
 	const createUserUseCase = new CreateUserUseCase(userRepository)

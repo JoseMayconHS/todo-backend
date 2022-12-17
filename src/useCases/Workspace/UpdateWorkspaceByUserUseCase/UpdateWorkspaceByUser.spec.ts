@@ -1,12 +1,12 @@
-import { UserRepository } from '../../../repositories/repositories'
 import { WorkspaceRepository } from '../../../repositories/userRepository/class/Workspace'
+import { MockUserRepository } from '../../../repositories/userRepository/mock/mockUserRepository'
 import { CreateUserUseCase } from '../../User/CreateUserUseCase/CreateUserUseCase'
 import { CreateWorkspaceByUserUseCase } from '../CreateWorkspaceByUserUseCase/CreateWorkspaceByUserUseCase'
 import { FindWorkspaceByUserUseCase } from '../FindWorkspaceByUserUseCase/FindWorkspaceByUserUseCase'
 import { UpdateWorkspaceByUser } from './UpdateWorkspaceByUser'
 
 describe('Update Workspace by user', () => {
-	const userRepository = new UserRepository()
+	const userRepository = new MockUserRepository()
 	const workspaceRepository = new WorkspaceRepository(userRepository)
 
 	const updateWorkspaceByUser = new UpdateWorkspaceByUser(workspaceRepository)

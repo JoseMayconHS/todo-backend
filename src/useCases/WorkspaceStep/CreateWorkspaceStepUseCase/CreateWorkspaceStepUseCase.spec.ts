@@ -1,15 +1,15 @@
 import { CreateStepDTO } from './../../../models/WorkspaceModel/WorkspaceModel'
 import { CreateWorkspaceStepUseCase } from './CreateWorkspaceStepUseCase'
 
-import { UserRepository } from '../../../repositories/repositories'
 import { WorkspaceRepository } from '../../../repositories/userRepository/class/Workspace'
 import { WorkspaceStepRepository } from '../../../repositories/userRepository/class/WorkspaceStep'
+import { MockUserRepository } from '../../../repositories/userRepository/mock/mockUserRepository'
 import { CreateUserUseCase } from '../../User/CreateUserUseCase/CreateUserUseCase'
 import { CreateWorkspaceByUserUseCase } from '../../Workspace/CreateWorkspaceByUserUseCase/CreateWorkspaceByUserUseCase'
 import { FindWorkspaceByIDUseCase } from '../../Workspace/FindWorkspaceByIDUseCase/FindWorkspaceByIDUseCase'
 
 describe('Create Step', () => {
-	const userRepository = new UserRepository()
+	const userRepository = new MockUserRepository()
 	const workspaceRepository = new WorkspaceRepository(userRepository)
 	const workspaceStepRepository = new WorkspaceStepRepository(userRepository)
 

@@ -123,6 +123,14 @@ type PayloadOutput {
 }
 ```
 
+## Mandar token no cabeçalho da requisições
+
+```typescript
+  {
+    'Authorization': 'Bearer <token>'
+  }
+```
+
 ## Query
 
 - Login de usuário

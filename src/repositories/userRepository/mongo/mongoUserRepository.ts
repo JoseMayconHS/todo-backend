@@ -95,6 +95,8 @@ export class MongoUserRepository implements UserRepositoryContract {
 		data: Partial<CreateUserDTO>
 	): Promise<void> {
 		if (data.password !== undefined) {
+			UserModel.validatePassword(data.password)
+
 			data.password = UserModel.encrypt(data.password)
 		}
 

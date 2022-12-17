@@ -10,14 +10,16 @@ export type Checklist = {
 	done: boolean
 }
 
-export type TaskPayload = Omit<
+export type TaskPayload = Pick<
 	TaskModel,
-	| 'addChecklist'
-	| 'updateChecklist'
-	| 'deleteChecklist'
-	| 'addMember'
-	| 'deleteMember'
-	| 'toObj'
+	| '_id'
+	| 'step_id'
+	| 'title'
+	| 'members_id'
+	| 'description'
+	| 'doneAt'
+	| 'checklist'
+	| 'priority'
 >
 
 export class TaskModel extends Model {

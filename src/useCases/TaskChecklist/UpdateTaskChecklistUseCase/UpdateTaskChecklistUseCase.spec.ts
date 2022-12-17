@@ -1,7 +1,7 @@
-import { UserRepository } from '../../../repositories/repositories'
 import { TaskRepository } from '../../../repositories/userRepository/class/Task'
 import { TaskChecklistRepository } from '../../../repositories/userRepository/class/TaskChecklist'
 import { WorkspaceRepository } from '../../../repositories/userRepository/class/Workspace'
+import { MockUserRepository } from '../../../repositories/userRepository/mock/mockUserRepository'
 import { CreateTaskUseCase } from '../../Task/CreateTaskUseCase/CreateTaskUseCase'
 import { FindTaskByWorkspaceUseCase } from '../../Task/FindTaskByWorkspaceUseCase/FindTaskByWorkspaceUseCase'
 import { CreateUserUseCase } from '../../User/CreateUserUseCase/CreateUserUseCase'
@@ -10,7 +10,7 @@ import { AddTaskChecklistUseCase } from './../AddTaskChecklistUseCase/AddTaskChe
 import { UpdateTaskChecklistUseCase } from './UpdateTaskChecklistUseCase'
 
 describe('update item in Checklist in Task', () => {
-	const userRepository = new UserRepository()
+	const userRepository = new MockUserRepository()
 	const workspaceRepository = new WorkspaceRepository(userRepository)
 	const taskRepository = new TaskRepository(userRepository)
 	const taskChecklistRepository = new TaskChecklistRepository(userRepository)

@@ -67,6 +67,8 @@ export class MockUserRepository implements UserRepositoryContract {
 		const index = this.users.findIndex((user) => user._id === user_id)
 
 		if (data.password !== undefined) {
+			UserModel.validatePassword(data.password)
+
 			data.password = UserModel.encrypt(data.password)
 		}
 

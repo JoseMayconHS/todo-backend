@@ -1,10 +1,10 @@
-import { UserRepository } from '../../../repositories/repositories'
+import { MockUserRepository } from '../../../repositories/userRepository/mock/mockUserRepository'
 import { CreateUserUseCase } from '../CreateUserUseCase/CreateUserUseCase'
 import { DeleteUserUseCase } from './../DeleteUserUseCase/DeleteUserUseCase'
 import { LoginUserUseCase } from './LoginUserUseCase'
 
 describe('Login User', () => {
-	const userRepository = new UserRepository()
+	const userRepository = new MockUserRepository()
 
 	const loginUserUseCase = new LoginUserUseCase(userRepository)
 	const createUserUseCase = new CreateUserUseCase(userRepository)

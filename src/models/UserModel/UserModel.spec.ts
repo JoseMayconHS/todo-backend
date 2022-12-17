@@ -18,7 +18,7 @@ describe('UserModel', () => {
 		expect(user.password).toBe(hash_password)
 	})
 
-	it('should not be able create user wth wrong email', () => {
+	it('should not be able create user with wrong email', () => {
 		let errorMessage = ''
 
 		try {
