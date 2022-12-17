@@ -45,7 +45,10 @@ const WorkspaceUpdateTypeDefs = gql`
 	}
 
 	type Mutation {
-		updateWorkspace(workspace_id: ID!, data: UpdateWorkspaceInput): SimpleOutput
+		updateWorkspace(
+			workspace_id: ID!
+			data: UpdateWorkspaceInput!
+		): SimpleOutput
 	}
 `
 

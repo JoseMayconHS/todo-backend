@@ -115,6 +115,7 @@ type Member {
 ```graphql
 type SimpleOutput {
 	ok: Boolean
+	message: String
 }
 
 type PayloadOutput {
@@ -170,6 +171,8 @@ type PayloadOutput {
   }
   ```
 
+---
+
 ## Mutation
 
 - Cadastro de usuário
@@ -213,6 +216,56 @@ type PayloadOutput {
   	updateUser(data: UpdateUserInput): SimpleOutput
   }
   ```
+
+---
+
+- Adicionar workspace **(Requer token)**
+
+  ```graphql
+  input WorkspaceCreateInput {
+  	title: String!
+  	members_id: [String]
+  	favorite: Boolean
+  	description: String
+  }
+
+  type WorkspaceCreateOutput {
+  	_id: ID
+  	ok: Boolean!
+  	message: String
+  }
+
+  type Mutation {
+  	createWorkspace(data: WorkspaceCreateInput): WorkspaceCreateOutput
+  }
+  ```
+
+- Atualizar workspace **(Requer token)**
+
+  ```graphql
+  input UpdateWorkspaceInput {
+  	title: String
+  	favorite: Boolean
+  	description: String
+  }
+
+  type Mutation {
+  	updateWorkspace(
+  		workspace_id: ID!
+  		data: UpdateWorkspaceInput!
+  	): SimpleOutput
+  }
+  ```
+
+- Remover workspace **(Requer token)**
+
+  ```graphql
+  type Mutation {
+  	removeWorkspace(workspace_id: ID!): SimpleOutput
+  }
+  ```
+
+---
 
 ## Ambiente configurado com Docker
 
