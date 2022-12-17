@@ -1,6 +1,6 @@
 import { WorkspaceRepositoryContract } from '@repositories/userRepository/WorkspaceRepository'
 
-export class UpdateWorkspaceByUser {
+export class UpdateWorkspaceByUserUseCase {
 	constructor(private WorkspaceRepository: WorkspaceRepositoryContract) {}
 
 	async execute(workspace_id = '', user_id = '', data = {}) {

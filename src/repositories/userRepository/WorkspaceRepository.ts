@@ -1,6 +1,9 @@
-import { WorkspaceModel } from '@models/WorkspaceModel/WorkspaceModel'
+import {
+	WorkspaceModel,
+	WorkspacePayload,
+} from '@models/WorkspaceModel/WorkspaceModel'
 
-export interface CreateWorkspaceDTO extends Omit<WorkspaceModel, '_id'> {}
+export interface CreateWorkspaceDTO extends Omit<WorkspacePayload, '_id'> {}
 
 export interface WorkspaceRepositoryContract {
 	workspaceCreate(data: CreateWorkspaceDTO, user_id: string): Promise<string>

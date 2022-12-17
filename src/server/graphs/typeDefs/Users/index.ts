@@ -1,11 +1,10 @@
 import { gql } from 'apollo-server'
 
 import { LoginUserResponse } from '@useCases/User/LoginUserUseCase/LoginUserUseCase'
+import { SimpleOutput } from '..'
 
-export type RegisterOutput = {
-	ok: boolean
+export type RegisterOutput = SimpleOutput & {
 	_id?: string
-	message: string
 }
 
 const UserRegisterTypeDefs = gql`
@@ -15,10 +14,10 @@ const UserRegisterTypeDefs = gql`
 		password: String!
 	}
 
-	type RegisterOutput {
+	type RegisterOutput implements ISimpleOutput {
 		ok: Boolean!
-		_id: ID
 		message: String
+		_id: ID
 	}
 
 	type Mutation {
@@ -57,10 +56,6 @@ const UserLogoutTypeDefs = gql`
 	}
 `
 
-export type SimpleOutput = {
-	ok: boolean
-}
-
 const UserDeleteTypeDefs = gql`
 	type Mutation {
 		removeUser: SimpleOutput
@@ -80,53 +75,6 @@ const UserUpdateTypeDefs = gql`
 `
 
 export const UserTypeDefs = gql`
-	type SimpleOutput {
-		ok: Boolean
-	}
-
-	type Step {
-		_id: ID!
-		label: String!
-		index: Int!
-	}
-
-	type Member {
-		_id: ID!
-		name: String!
-		email: String!
-	}
-
-	type Checklist {
-		_id: ID!
-		description: String!
-		done: Boolean!
-	}
-
-	type Task {
-		_id: ID!
-		step_id: [ID]!
-		priority: Int!
-		members_id: [Member]!
-		title: String!
-		description: String!
-		doneAt: Int
-		checklist: [Checklist]!
-		created_at: String!
-		update_at: String!
-	}
-
-	type Workspace {
-		_id: String!
-		title: String!
-		members_id: [Member]!
-		favorite: Boolean!
-		description: String!
-		tasks: [Task]!
-		steps: [Step]!
-		created_at: String!
-		update_at: String!
-	}
-
 	type User {
 		_id: ID!
 		name: String!

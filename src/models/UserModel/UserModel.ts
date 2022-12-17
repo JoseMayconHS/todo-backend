@@ -121,7 +121,7 @@ export class UserModel extends Model {
 			(workspace) => workspace._id === workspace_id
 		)
 
-		return workspace
+		return new WorkspaceModel(workspace)
 	}
 
 	addWorkspace(data: WorkspaceModel): Required<WorkspaceModel> {
@@ -335,12 +335,24 @@ export class UserModel extends Model {
 		return user_obj
 	}
 
-	payload(): UserPayload {
+	payload(noPassword?: boolean): UserPayload {
 		const payload = {
 			...this,
 		}
 
-		delete this.errorMessage
+		if (noPassword) {
+			delete payload.password
+		}
+
+		delete payload.errorMessage
+
+		for (const workspace of payload.workspaces) {
+			delete workspace.errorMessage
+
+			for (const task of workspace.tasks) {
+				delete task.errorMessage
+			}
+		}
 
 		return payload
 	}

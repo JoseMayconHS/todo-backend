@@ -1,7 +1,8 @@
 import { UserRepository } from '@repositories/repositories'
 
 import { GraphContext } from '@server/config/context'
-import { RegisterOutput, SimpleOutput } from '@server/graphs/typeDefs/Users'
+import { SimpleOutput } from '@server/graphs/typeDefs'
+import { RegisterOutput } from '@server/graphs/typeDefs/Users'
 
 import { CreateUserUseCase } from '@useCases/User/CreateUserUseCase/CreateUserUseCase'
 import { DeleteUserUseCase } from '@useCases/User/DeleteUserUseCase/DeleteUserUseCase'

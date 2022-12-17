@@ -3,13 +3,15 @@ import { MockUserRepository } from '../../../repositories/userRepository/mock/mo
 import { CreateUserUseCase } from '../../User/CreateUserUseCase/CreateUserUseCase'
 import { CreateWorkspaceByUserUseCase } from '../CreateWorkspaceByUserUseCase/CreateWorkspaceByUserUseCase'
 import { FindWorkspaceByUserUseCase } from '../FindWorkspaceByUserUseCase/FindWorkspaceByUserUseCase'
-import { UpdateWorkspaceByUser } from './UpdateWorkspaceByUser'
+import { UpdateWorkspaceByUserUseCase } from './UpdateWorkspaceByUserUseCase'
 
 describe('Update Workspace by user', () => {
 	const userRepository = new MockUserRepository()
 	const workspaceRepository = new WorkspaceRepository(userRepository)
 
-	const updateWorkspaceByUser = new UpdateWorkspaceByUser(workspaceRepository)
+	const updateWorkspaceByUser = new UpdateWorkspaceByUserUseCase(
+		workspaceRepository
+	)
 	const createWorkspaceUseCase = new CreateWorkspaceByUserUseCase(
 		workspaceRepository
 	)

@@ -11,6 +11,17 @@ export type Step = {
 	index?: number
 }
 
+export type WorkspacePayload = Pick<
+	WorkspaceModel,
+	| '_id'
+	| 'title'
+	| 'members_id'
+	| 'favorite'
+	| 'description'
+	| 'tasks'
+	| 'steps'
+>
+
 export type CreateStepDTO = Omit<Step, '_id'>
 
 export class WorkspaceModel extends Model {
@@ -35,22 +46,24 @@ export class WorkspaceModel extends Model {
 		this.title = props.title
 		this.favorite = !!props.favorite
 		this.description = props.description ?? ''
-		this.tasks = props.tasks ?? []
-		this.members_id = props.members_id ?? []
-		this.steps = props.steps ?? [
-			WorkspaceModel.createStep({
-				label: 'A fazer',
-				index: 1,
-			}),
-			WorkspaceModel.createStep({
-				label: 'Fazendo',
-				index: 2,
-			}),
-			WorkspaceModel.createStep({
-				label: 'Concluído',
-				index: 3,
-			}),
-		]
+		this.tasks = props.tasks?.length ? props.tasks : []
+		this.members_id = props.members_id?.length ? props.members_id : []
+		this.steps = props.steps?.length
+			? props.steps
+			: [
+					WorkspaceModel.createStep({
+						label: 'A fazer',
+						index: 1,
+					}),
+					WorkspaceModel.createStep({
+						label: 'Fazendo',
+						index: 2,
+					}),
+					WorkspaceModel.createStep({
+						label: 'Concluído',
+						index: 3,
+					}),
+			  ]
 	}
 
 	addMember(member_id: string) {
